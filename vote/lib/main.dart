@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vote/style/style.dart';
 
 void main() {
   runApp(const MyApp());
@@ -105,13 +106,17 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'You have pushed the button this many times:',
+              style: TextStyle(
+                  fontFamily: CustomStyle.lightFont,
+                  fontSize: CustomStyle.fontSizes.smallFont),
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            Image.asset("assets/images/addCandidates.png")
           ],
         ),
       ),
