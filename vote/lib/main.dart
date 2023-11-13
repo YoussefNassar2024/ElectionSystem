@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:vote/Poll/add_candidates_screen.dart';
+import 'package:vote/Poll/poll_title_screen.dart';
 import 'package:vote/style/style.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(AddCandidatesScreen());
 }
 
 class MyApp extends StatelessWidget {
