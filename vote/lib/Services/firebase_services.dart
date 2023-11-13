@@ -1,0 +1,81 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+import 'package:vote/custom_components/utils.dart';
+
+class FireBaseAuthenticationServices {
+  String? currentUserID;
+  String getCurrentUserId() {
+    if (FirebaseAuth.instance.currentUser != null) {
+      currentUserID = FirebaseAuth.instance.currentUser?.uid;
+    }
+    return currentUserID!;
+  }
+
+  static Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        // User canceled the sign-in process
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential authResult =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      final User? user = authResult.user;
+
+      // You can access user information here (e.g., user.displayName, user.email, etc.)
+
+      return user;
+    } catch (error) {
+      print("Error signing in with Google: $error");
+      return null;
+    }
+  }
+
+  static Future signIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+    } on Exception {
+      // showSnackBar("${e.toString()}");
+    }
+  }
+
+  Future passwordReset(String email, BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+      showSnackBar(e.message.toString(), context);
+    }
+  }
+
+  static Future signUp(
+      String email, String password, BuildContext context) async {
+    try {
+      List<String> signInMethods =
+          await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
+
+      if (signInMethods.contains('password')) {
+        // Email already exists, handle accordingly
+        showSnackBar('Email already exists. Please sign in.', context);
+        // You may choose to navigate to the sign-in screen or take other actions
+        return;
+      }
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on Exception catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+}
