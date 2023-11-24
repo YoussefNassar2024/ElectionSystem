@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vote/firebase_options.dart';
+import 'package:vote/screens/create_poll/add_candidates_screen.dart';
 import 'package:vote/screens/create_poll/poll_title_screen.dart';
 import 'package:vote/screens/login_or_signup/sign_in_screen.dart';
 
@@ -9,14 +10,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(myApp());
+  runApp(MyApp());
 }
 
-class myApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Directionality(
-            textDirection: TextDirection.ltr, child: PollTitleScreen()));
+            textDirection: TextDirection.ltr, child: AddCandidatesScreen()));
   }
 }
