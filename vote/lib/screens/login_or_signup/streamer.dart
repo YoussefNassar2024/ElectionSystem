@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vote/home.dart';
-import 'package:vote/login.dart';
-import 'package:vote/screens/login_or_signup/sign_in_screen.dart';
+import 'package:vote/main.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
           return HomeScreen();
         } else {
           // User is not signed in or email is not verified, navigate to sign-up/login screen
-          return FirstScreen();
+          return myApp();
         }
       },
     );

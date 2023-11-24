@@ -51,9 +51,10 @@ class FireBaseAuthenticationServices {
     }
   }
 
-  Future passwordReset(String email, BuildContext context) async {
+  static Future passwordReset(String email, BuildContext context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      showSnackBar("Password reset email has been sent !", context);
     } on FirebaseAuthException catch (e) {
       print(e);
       showSnackBar(e.message.toString(), context);

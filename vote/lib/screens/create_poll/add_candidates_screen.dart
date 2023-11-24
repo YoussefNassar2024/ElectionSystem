@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-
-
 class AddCandidatesScreen extends StatelessWidget {
- @override
- Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -22,22 +20,22 @@ class AddCandidatesScreen extends StatelessWidget {
               SizedBox(height: 100),
               InkWell(
                 onTap: () {
-                 // Your function to add candidates
+                  // Your function to add candidates
                 },
                 child: Container(
-                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-                 decoration: BoxDecoration(
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                  decoration: BoxDecoration(
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(10),
-                 ),
-                 child: Text(
+                  ),
+                  child: Text(
                     'Add Candidates',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                 ),
+                  ),
                 ),
               ),
             ],
@@ -51,7 +49,7 @@ class AddCandidatesScreen extends StatelessWidget {
           child: Icon(Icons.add),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
-      ),    
-      );
- }
+      ),
+    );
+  }
 }

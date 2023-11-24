@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vote/Services/firebase_services.dart';
+import 'package:vote/Services/authentication_services.dart';
 import 'package:vote/custom_components/custom_button.dart';
+import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/home.dart';
@@ -228,16 +229,4 @@ class _SignUnScreenState extends State<SignUnScreen> {
       ),
     );
   }
-}
-
-Widget customVerticalSpace({required BuildContext context, double? height}) {
-  return SizedBox(
-    height: height ?? MediaQuery.of(context).size.height * 0.03,
-  );
-}
-
-Widget customHorizontalSpace({required BuildContext context, double? width}) {
-  return SizedBox(
-    width: width ?? MediaQuery.of(context).size.width * 0.02,
-  );
 }

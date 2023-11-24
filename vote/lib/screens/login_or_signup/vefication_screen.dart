@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vote/custom_components/custom_button.dart';
+import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/home.dart';
 import 'package:vote/style/style.dart';
@@ -43,7 +44,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
           buttonColor = CustomStyle.colorPalette.lightPurple;
         });
       }
-      await Future.delayed(Duration(seconds: 60));
+      for (int i = 0; i < 60; i++) {
+        // Delay for 1 second
+        await Future.delayed(Duration(seconds: 1));
+      }
       if (mounted) {
         setState(() {
           canResendEmail = true;
@@ -128,8 +132,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
               fontFamily: CustomStyle.boldFont,
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.only(bottom: 10.0),
             child: customButton(
                 context: context,
                 borderRadius: 5,
@@ -157,10 +162,4 @@ class _VerificationScreenState extends State<VerificationScreen> {
       ),
     );
   }
-}
-
-Widget customVerticalSpace({required BuildContext context, double? height}) {
-  return SizedBox(
-    height: height ?? MediaQuery.of(context).size.height * 0.03,
-  );
 }

@@ -1,22 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vote/Services/firebase_services.dart';
+import 'package:vote/Services/authentication_services.dart';
 import 'package:vote/custom_components/custom_button.dart';
+import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/home.dart';
+import 'package:vote/screens/login_or_signup/password_reset_screen.dart';
 import 'package:vote/screens/login_or_signup/sign_up_screen.dart';
 import 'package:vote/screens/login_or_signup/vefication_screen.dart';
 import 'package:vote/style/style.dart';
-
-class FirstScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Directionality(
-            textDirection: TextDirection.ltr, child: SignInScreen()));
-  }
-}
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -86,6 +79,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 TextButton(
                     onPressed: () {
                       //TODO: add reset password
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: ((context) => PasswordResetScreen())));
                     },
                     child: Text(
                       "reset password?",
@@ -304,16 +299,4 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-}
-
-Widget customVerticalSpace({required BuildContext context, double? height}) {
-  return SizedBox(
-    height: height ?? MediaQuery.of(context).size.height * 0.03,
-  );
-}
-
-Widget customHorizontalSpace({required BuildContext context, double? width}) {
-  return SizedBox(
-    width: width ?? MediaQuery.of(context).size.width * 0.02,
-  );
 }
