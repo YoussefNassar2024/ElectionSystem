@@ -1,24 +1,31 @@
 class Vote {
-  String voterId;
-  String pollId;
   String candidateId;
+  String pollId;
+  String voterId;
+  Map<String, dynamic> voterData;
 
-  Vote(
-      {required this.voterId, required this.pollId, required this.candidateId});
+  Vote({
+    required this.candidateId,
+    required this.pollId,
+    required this.voterId,
+    required this.voterData,
+  });
 
   factory Vote.fromJson(Map<String, dynamic> json) {
     return Vote(
-      voterId: json['voterId'],
-      pollId: json['pollId'],
       candidateId: json['candidateId'],
+      pollId: json['pollId'],
+      voterId: json['voterId'],
+      voterData: json['voterData'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'voterId': voterId,
-      'pollId': pollId,
       'candidateId': candidateId,
+      'pollId': pollId,
+      'voterId': voterId,
+      'voterData': voterData,
     };
   }
 }
