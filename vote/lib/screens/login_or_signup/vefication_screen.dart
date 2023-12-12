@@ -32,6 +32,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
     Timer.periodic(Duration(seconds: 5), (_) {
       checkEmailVerified();
     });
+    updateTimer();
   }
 
   Future<void> sendVerificationEmail() async {
