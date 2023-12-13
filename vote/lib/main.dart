@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
               pollName: 'NU Poll',
               date: '12/12/2023',
               winnerName: 'Youssef Ahmed',
-              winPercentage: 62,
+              winPercentage: 50,
               photoUrl:
                   "https://firebasestorage.googleapis.com/v0/b/election-37353.appspot.com/o/94936068.jpg?alt=media&token=3c9ee6f6-8059-4587-9b3d-209db6454eba",
             )));
