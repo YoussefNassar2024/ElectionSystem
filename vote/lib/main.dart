@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:vote/firebase_options.dart';
 import 'package:vote/home.dart';
 import 'package:vote/screens/create_poll/add_required_data_screen.dart';
+import 'package:vote/screens/create_poll/dead_line_picker_screen.dart';
 import 'package:vote/screens/history/card.dart';
 import 'package:vote/screens/create_poll/add_candidates_screen.dart';
 import 'package:vote/screens/history/history_screen.dart';

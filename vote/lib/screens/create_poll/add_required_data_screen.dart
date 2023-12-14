@@ -103,7 +103,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
+              height: MediaQuery.of(context).size.height * 0.81,
               child: SingleChildScrollView(
                 child: Center(
                   child: Stack(
@@ -180,7 +180,6 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                   customButton(
                                     context: context,
                                     onPressed: () {
-                                      //TODO: choose input function
                                       _showPopup(context, 0, false);
                                     },
                                     childText: mainInputType,
@@ -200,7 +199,8 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                 ],
                               ),
                               SizedBox(
-                                height: 500,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
                                 child: ListView.builder(
                                     itemCount: rowsOfData.length,
                                     itemBuilder: (context, index) {
@@ -293,7 +293,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                       noEmptyTextFieldsInList &&
                       mainInputTypesNotInList &&
                       mainTextFieldsNotInList) {
-                    //TODO: add next function
+                    //TODO: add next function and add all inputs to the map
                   }
                 },
                 childText: "Done",
