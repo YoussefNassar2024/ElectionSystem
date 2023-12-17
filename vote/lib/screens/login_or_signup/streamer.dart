@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vote/home.dart';
-import 'package:vote/main.dart';
+import 'package:vote/screens/home_screen/home_screen.dart';
 
 void main() {
   runApp(MyApp());

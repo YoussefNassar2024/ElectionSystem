@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 ////////////////////////////////////////Important notes////////////////////////////////////////////////////////
@@ -8,8 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Candidate {
   String name;
-  String photo;
-  Timestamp dateOfBirth;
+  File photo;
+  String dateOfBirth;
   String description;
 
   Candidate({
