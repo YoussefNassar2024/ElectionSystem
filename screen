@@ -1,0 +1,138 @@
+import 'package:flutter/material.dart';
+
+void main() {
+ runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+ @override
+ Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('MIM'),
+        ),
+        body: MimScreen(),
+      ),
+    );
+ }
+}
+
+class MimScreen extends StatefulWidget {
+ @override
+ _MimScreenState createState() => _MimScreenState();
+}
+
+class _MimScreenState extends State<MimScreen> {
+ int selectedIndex = 0;
+
+ List<Widget> _screens = [
+    VoteScreen(),
+    ProfileScreen(),
+ ];
+
+ void onTabTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+ }
+
+ @override
+ Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: selectedIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.vote),
+            label: 'Vote',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+ }
+}
+
+class VoteScreen extends StatelessWidget {
+ @override
+ Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Description:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'This is description show more',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Candidate:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Ahmed Mohamed 23 years old',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {
+              // Add code to vote for the candidate
+            },
+            child: Text('Vote'),
+          ),
+        ],
+      ),
+    );
+ }
+}
+
+class ProfileScreen extends StatelessWidget {
+ @override
+ Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Name:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Ahmed Mohamed',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Age:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            '23 years old',
+            style: TextStyle(fontSize: 16),
+          ),
+          SizedBox(height: 16),
+          Text(
+            'Description:',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'This is description show more',
+            style: TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
+    );
+ }
+}
