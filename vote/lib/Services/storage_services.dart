@@ -15,11 +15,13 @@ class StorageServices {
     }
     try {
       //atempt to upload image and store a link to it
-      Reference storageReference = FirebaseStorage.instance
-          .ref()
-          .child('candidate_photos/$pollID/$photoName.png');
-      await storageReference.child(photoName).putFile(photoFile);
-      imageLink = await storageReference.child(photoName).getDownloadURL();
+      Reference storageReference = FirebaseStorage.instance.ref();
+      await storageReference
+          .child('candidate_photos/$pollID/$photoName.png')
+          .putFile(photoFile);
+      imageLink = await storageReference
+          .child('candidate_photos/$pollID/$photoName.png')
+          .getDownloadURL();
     } catch (e) {}
     return imageLink; //if upload is succesful reutrn a link to the image
   }
