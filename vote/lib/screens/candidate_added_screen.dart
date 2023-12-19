@@ -9,6 +9,7 @@ import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
 import 'package:vote/screens/create_poll/candidate_card.dart';
 import 'package:vote/style/style.dart';
+import 'package:vote/screens/home_screen/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Flutter Demo',
       home: CandidateAddedScreen(),
     );
   }
@@ -58,25 +58,35 @@ class AddCandidatesScreenState extends State<CandidateAddedScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text("Candidates Saved!",
+                  Text("Candidates Saved!",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500)),
-                  const Text("Share the poll using this code: ",
+                          color: CustomStyle.colorPalette.white,
+                          fontSize: CustomStyle.fontSizes.largeFont,
+                          fontFamily: CustomStyle.boldFont)),
+                  Text("Share the poll using this code: ",
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400)),
+                          color: CustomStyle.colorPalette.white,
+                          fontSize: CustomStyle.fontSizes.subMediumFont,
+                          fontFamily: CustomStyle.semiBoldFont)),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
-                      height: 100,
-                      width: 200,
-                      color: CustomStyle.colorPalette.lightPurple, /*child:*/
-                    ),
+                        height: 100,
+                        width: 200,
+                        color: CustomStyle.colorPalette.lightPurple,
+                        child: SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: Align(
+                                alignment: const Alignment(1.5, -1),
+                                child: IconButton(
+                                  onPressed: () {},
+                                  icon: Image.asset('assets/images/copy.png'),
+                                  iconSize: 20,
+                                  padding: const EdgeInsets.all(35),
+                                )))),
                   )
                 ],
               ),
@@ -85,17 +95,18 @@ class AddCandidatesScreenState extends State<CandidateAddedScreen> {
           customButton(
             context: context,
             onPressed: () {
-              print("Next page");
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()));
             },
             childText: "Done",
             color: CustomStyle.colorPalette.lightPurple,
             width: 100,
             height: 50,
-            textStyle: const TextStyle(color: Colors.black, fontSize: 30),
+            textStyle: TextStyle(
+                color: CustomStyle.colorPalette.darkPurple,
+                fontSize: CustomStyle.fontSizes.largeFont),
           ),
         ],
-
-        //customVerticalSpace(context: context),
       ),
     ));
   }
