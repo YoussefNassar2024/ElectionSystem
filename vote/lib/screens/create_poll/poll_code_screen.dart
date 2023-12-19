@@ -11,32 +11,17 @@ import 'package:vote/screens/create_poll/candidate_card.dart';
 import 'package:vote/style/style.dart';
 import 'package:vote/screens/home_screen/home_screen.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CandidateAddedScreen(),
-    );
-  }
-}
-
-class CandidateAddedScreen extends StatefulWidget {
-  const CandidateAddedScreen({
+class PollCodeScreen extends StatefulWidget {
+  const PollCodeScreen({
     super.key,
+    required this.pollCode,
   });
-
+  final String pollCode;
   @override
-  State<CandidateAddedScreen> createState() => AddCandidatesScreenState();
+  State<PollCodeScreen> createState() => AddCandidatesScreenState();
 }
 
-class AddCandidatesScreenState extends State<CandidateAddedScreen> {
+class AddCandidatesScreenState extends State<PollCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +67,9 @@ class AddCandidatesScreenState extends State<CandidateAddedScreen> {
                             child: Align(
                                 alignment: const Alignment(1.5, -1),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    //TODO: add copy function
+                                  },
                                   icon: Image.asset('assets/images/copy.png'),
                                   iconSize: 20,
                                   padding: const EdgeInsets.all(35),
