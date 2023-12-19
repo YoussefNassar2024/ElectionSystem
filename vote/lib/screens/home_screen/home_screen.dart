@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
+import 'package:vote/screens/create_poll/poll_title_screen.dart';
 import 'package:vote/style/style.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -38,7 +39,9 @@ class HomeScreen extends StatelessWidget {
             customButton(
                 context: context,
                 onPressed: () {
-                  //TODO: add navigation to history screen
+                  //TODO: add navigation to create poll screen
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PollTitleScreen()));
                 },
                 childText: "Create poll",
                 height: MediaQuery.of(context).size.height * 0.09,

@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
+import 'package:vote/custom_components/utils.dart';
+import 'package:vote/screens/create_poll/add_candidates_screen.dart';
 import 'package:vote/style/style.dart';
 
 class PollTitleScreen extends StatelessWidget {
@@ -68,6 +70,16 @@ class PollTitleScreen extends StatelessWidget {
             color: CustomStyle.colorPalette.lightPurple,
             onPressed: () {
               //TODO: add function
+              if (pollNameController.text.trim() == null ||
+                  pollNameController.text.trim().isEmpty ||
+                  pollNameController.text.trim() == '') {
+                showSnackBar("Please enter poll name", context);
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => AddCandidatesScreen(
+                          pollName: pollNameController.text.trim(),
+                        )));
+              }
             },
             childText: "Next",
             textStyle: TextStyle(

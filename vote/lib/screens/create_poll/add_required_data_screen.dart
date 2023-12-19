@@ -1,36 +1,54 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
+import 'package:vote/models/poll_model.dart';
+import 'package:vote/screens/create_poll/dead_line_picker_screen.dart';
 import 'package:vote/style/style.dart';
 
 class AddRequiredData extends StatefulWidget {
-  const AddRequiredData({Key? key}) : super(key: key);
-
+  const AddRequiredData(
+      {Key? key,
+      required this.pollName,
+      required this.candidates,
+      required this.candidatesimages})
+      : super(key: key);
+  final String pollName;
+  final List<Candidate> candidates;
+  final List<File> candidatesimages;
   @override
   State<AddRequiredData> createState() => _AddRequiredDataState();
 }
 
 class _AddRequiredDataState extends State<AddRequiredData> {
-  List<TextEditingController> controller = [];
+  List<TextEditingController> dataNameController = [];
   TextEditingController mainController = TextEditingController();
   String mainInputType = "Choose input";
   List<Widget> rowsOfData = [];
   List<String> inputTypes = [];
-  Map<String, String> dataFromUser = {};
+  List<Map<String, String>> dataFromUser = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dataFromUser.clear();
+  }
+
   @override
   void dispose() {
-    for (int i = 0; i < controller.length; i++) {
-      controller[i].dispose();
+    for (int i = 0; i < dataNameController.length; i++) {
+      dataNameController[i].dispose();
     }
     mainController.dispose();
     super.dispose();
   }
 
   void addDataRow(int index) {
-    controller.add(TextEditingController());
+    dataNameController.add(TextEditingController());
     inputTypes.add("Choose input");
     setState(() {
       rowsOfData.add(
@@ -44,7 +62,8 @@ class _AddRequiredDataState extends State<AddRequiredData> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 customTextField(
-                  textEditingController: controller[controller.length - 1],
+                  textEditingController:
+                      dataNameController[dataNameController.length - 1],
                   context: context,
                   hintText: "Data name",
                   height: MediaQuery.of(context).size.height * 0.013,
@@ -75,11 +94,12 @@ class _AddRequiredDataState extends State<AddRequiredData> {
 
   void removeDataRow() {
     setState(() {
-      controller.removeAt(controller.length - 1);
+      dataNameController.removeAt(dataNameController.length - 1);
       rowsOfData.removeAt(rowsOfData.length - 1);
       inputTypes.removeAt(inputTypes.length - 1);
+      dataFromUser.removeLast();
     });
-    print(controller.length);
+    print(dataNameController.length);
     print(rowsOfData.length);
     print(inputTypes.length);
   }
@@ -216,11 +236,13 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                             top: MediaQuery.of(context).size.height * 0.73,
                             left: MediaQuery.of(context).size.width * 0.034),
                         child: FloatingActionButton(
-                          onPressed: () {
-                            if (controller.isNotEmpty ||
+                          onPressed: () async {
+                            if (dataNameController.isNotEmpty ||
                                 rowsOfData.isNotEmpty ||
                                 inputTypes.isNotEmpty) {
-                              removeDataRow();
+                              setState(() {
+                                removeDataRow();
+                              });
                             } else {
                               showSnackBar(
                                   "Must be at least one Data to be takken from the user",
@@ -252,7 +274,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                   bool noEmptyInputTypesInList = true;
                   bool mainTextFieldsNotInList = true;
                   bool mainInputTypesNotInList = true;
-                  for (var element in controller) {
+                  for (var element in dataNameController) {
                     if (element.text.trim().isEmpty ||
                         element.text.trim() == null ||
                         element.text.trim() == "") {
@@ -294,6 +316,24 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                       mainInputTypesNotInList &&
                       mainTextFieldsNotInList) {
                     //TODO: add next function and add all inputs to the map
+                    dataFromUser.add({
+                      'data name': "${mainController.text.trim()}",
+                      'data type': '${mainInputType}'
+                    });
+                    for (var i = 0; i < inputTypes.length; i++) {
+                      dataFromUser.add({
+                        "data name": '${dataNameController[i].text.trim()}',
+                        "data type": '${inputTypes[i]}'
+                      });
+                    }
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => DeadLinePickerScreen(
+                              candidatesPhotos: widget.candidatesimages,
+                              pollName: widget.pollName,
+                              candidates: widget.candidates,
+                              dataFromUser: dataFromUser,
+                            )));
+                    print(dataFromUser);
                   }
                 },
                 childText: "Done",
@@ -350,12 +390,13 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                         setState(() {
                           if (inList) {
                             String text;
-                            text = controller[index].text.trim();
-                            controller.removeAt(index);
+                            text = dataNameController[index].text.trim();
+                            dataNameController.removeAt(index);
                             rowsOfData.removeAt(index);
                             inputTypes.removeAt(index);
-                            controller.add(TextEditingController());
-                            controller[controller.length - 1].text = text;
+                            dataNameController.add(TextEditingController());
+                            dataNameController[dataNameController.length - 1]
+                                .text = text;
                             inputTypes.add("Text");
                             setState(() {
                               rowsOfData.add(
@@ -373,7 +414,9 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                       children: [
                                         customTextField(
                                           textEditingController:
-                                              controller[controller.length - 1],
+                                              dataNameController[
+                                                  dataNameController.length -
+                                                      1],
                                           context: context,
                                           hintText: "Data name",
                                           height: MediaQuery.of(context)
@@ -440,13 +483,14 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                         setState(() {
                           if (inList) {
                             String text;
-                            text = controller[index].text.trim();
-                            controller.removeAt(index);
+                            text = dataNameController[index].text.trim();
+                            dataNameController.removeAt(index);
                             rowsOfData.removeAt(index);
                             inputTypes.removeAt(index);
 
-                            controller.add(TextEditingController());
-                            controller[controller.length - 1].text = text;
+                            dataNameController.add(TextEditingController());
+                            dataNameController[dataNameController.length - 1]
+                                .text = text;
                             inputTypes.add("Number");
                             setState(() {
                               rowsOfData.add(
@@ -464,7 +508,9 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                       children: [
                                         customTextField(
                                           textEditingController:
-                                              controller[controller.length - 1],
+                                              dataNameController[
+                                                  dataNameController.length -
+                                                      1],
                                           context: context,
                                           hintText: "Data name",
                                           height: MediaQuery.of(context)
@@ -529,13 +575,14 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                         setState(() {
                           if (inList) {
                             String text;
-                            text = controller[index].text.trim();
-                            controller.removeAt(index);
+                            text = dataNameController[index].text.trim();
+                            dataNameController.removeAt(index);
                             rowsOfData.removeAt(index);
                             inputTypes.removeAt(index);
 
-                            controller.add(TextEditingController());
-                            controller[controller.length - 1].text = text;
+                            dataNameController.add(TextEditingController());
+                            dataNameController[dataNameController.length - 1]
+                                .text = text;
                             inputTypes.add("Image");
                             setState(() {
                               rowsOfData.add(
@@ -553,7 +600,9 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                       children: [
                                         customTextField(
                                           textEditingController:
-                                              controller[controller.length - 1],
+                                              dataNameController[
+                                                  dataNameController.length -
+                                                      1],
                                           context: context,
                                           hintText: "Data name",
                                           height: MediaQuery.of(context)

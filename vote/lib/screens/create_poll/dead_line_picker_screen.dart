@@ -1,12 +1,27 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vote/Services/poll_services.dart';
+import 'package:vote/Services/storage_services.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/utils.dart';
+import 'package:vote/models/poll_model.dart';
+import 'package:vote/screens/home_screen/home_screen.dart';
 import 'package:vote/style/style.dart';
 
 class DeadLinePickerScreen extends StatefulWidget {
-  const DeadLinePickerScreen({super.key});
-
+  const DeadLinePickerScreen(
+      {super.key,
+      required this.pollName,
+      required this.candidates,
+      required this.dataFromUser,
+      required this.candidatesPhotos});
+  final String pollName;
+  final List<File> candidatesPhotos;
+  final List<Candidate> candidates;
+  final List<Map<String, String>> dataFromUser;
   @override
   State<DeadLinePickerScreen> createState() => _DeadLinePickerScreenState();
 }
@@ -15,6 +30,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
   String selectedDay = '1';
   String selectedMonth = 'January';
   String selectedYear = '2024';
+  List<String?> photosUrl = [];
 
   List<String> days = List.generate(31, (index) => (index + 1).toString());
   List<String> months = [
@@ -263,7 +279,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                 ),
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: MediaQuery.of(context).size.height * 0.07,
-                onPressed: () {
+                onPressed: () async {
                   bool valid = true;
                   // Check for days in February for leap years
                   if (selectedMonth == "February") {
@@ -288,15 +304,42 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                       int.parse(selectedYear),
                       months.indexOf(selectedMonth) + 1,
                       int.parse(selectedDay));
+                  Timestamp selectedDateTimeStamp =
+                      Timestamp.fromDate(selectedDate);
                   if (selectedDate.isBefore(currentDate) ||
                       selectedDate.isAtSameMomentAs(currentDate)) {
                     valid = false;
                   }
-
+                  String pollCode = generateUniqueID();
                   print(valid);
                   if (valid) {
                     print("Valid date. Implement navigation or other actions.");
                     //TODO: add navigation and upload
+                    try {
+                      showLoadingScreen(context);
+                      for (var i = 0; i < widget.candidatesPhotos.length; i++) {
+                        photosUrl.add(
+                            await StorageServices.uploadImageToStorage(
+                                widget.candidatesPhotos[i], pollCode));
+                      }
+                      for (var i = 0; i < photosUrl.length; i++) {
+                        setState(() {
+                          widget.candidates[i].photo = photosUrl[i]!;
+                        });
+                      }
+                      await PollService.uploadPollToFirebase(
+                          pollCode,
+                          Poll(
+                              candidates: widget.candidates,
+                              pollCode: pollCode,
+                              pollExpiryDate: selectedDateTimeStamp,
+                              pollFinished: false,
+                              title: widget.pollName));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => HomeScreen()));
+                    } on Exception catch (e) {
+                      showSnackBar(e.toString(), context);
+                    }
                   } else {
                     print("Invalid date. Handle the case accordingly.");
                     showSnackBar("Please enter a valid date", context);
@@ -308,4 +351,22 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
       ),
     );
   }
+}
+
+String generateUniqueID() {
+  DateTime now = DateTime.now();
+
+  // Format the date and time to create a unique ID
+  String formattedDate =
+      "${now.year}${_twoDigits(now.month)}${_twoDigits(now.day)}";
+  String formattedTime =
+      "${_twoDigits(now.hour)}${_twoDigits(now.minute)}${_twoDigits(now.second)}";
+  String uniqueID = "$formattedDate$formattedTime";
+  print(uniqueID);
+  return uniqueID;
+}
+
+String _twoDigits(int n) {
+  // Helper function to ensure two digits for month, day, hour, minute, and second
+  return n.toString().padLeft(2, '0');
 }
