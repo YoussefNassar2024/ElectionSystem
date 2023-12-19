@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 ////////////////////////////////////////Important notes////////////////////////////////////////////////////////
@@ -9,13 +11,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Candidate {
   String name;
   String photo;
-  Timestamp dateOfBirth;
+  String age;
   String description;
 
   Candidate({
     required this.name,
     required this.photo,
-    required this.dateOfBirth,
+    required this.age,
     required this.description,
   });
 
@@ -23,7 +25,7 @@ class Candidate {
     return Candidate(
       name: json['name'],
       photo: json['photo'],
-      dateOfBirth: json['dateOfBirth'],
+      age: json['age'],
       description: json['description'],
     );
   }
@@ -32,7 +34,7 @@ class Candidate {
     return {
       'name': name,
       'photo': photo,
-      'dateOfBirth': dateOfBirth,
+      'age': age,
       'description': description,
     };
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/utils.dart';
-import 'package:vote/home.dart';
+import 'package:vote/screens/home_screen/home_screen.dart';
 import 'package:vote/style/style.dart';
 
 class VerificationScreen extends StatefulWidget {

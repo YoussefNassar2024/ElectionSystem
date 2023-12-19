@@ -5,7 +5,7 @@ import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
-import 'package:vote/home.dart';
+import 'package:vote/screens/home_screen/home_screen.dart';
 import 'package:vote/screens/login_or_signup/password_reset_screen.dart';
 import 'package:vote/screens/login_or_signup/sign_up_screen.dart';
 import 'package:vote/screens/login_or_signup/vefication_screen.dart';

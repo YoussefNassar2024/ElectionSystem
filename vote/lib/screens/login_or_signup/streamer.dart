@@ -1,13 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:vote/home.dart';
-import 'package:vote/main.dart';
+import 'package:vote/screens/home_screen/home_screen.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+class LoginStreamer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -18,10 +13,11 @@ class MyApp extends StatelessWidget {
           return CircularProgressIndicator();
         } else if (snapshot.hasData && snapshot.data!.emailVerified) {
           // User is signed in and email is verified, navigate to home screen
+          print(FirebaseAuth.instance.currentUser);
           return HomeScreen();
         } else {
           // User is not signed in or email is not verified, navigate to sign-up/login screen
-          return MyApp();
+          return LoginStreamer();
         }
       },
     );
