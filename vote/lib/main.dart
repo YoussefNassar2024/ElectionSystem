@@ -1,19 +1,19 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:vote/Services/poll_services.dart';
 import 'package:vote/firebase_options.dart';
-import 'package:vote/screens/create_poll/add_required_data_screen.dart';
-import 'package:vote/screens/create_poll/candidate_card.dart';
-import 'package:vote/screens/create_poll/dead_line_picker_screen.dart';
-import 'package:vote/screens/history/card.dart';
-import 'package:vote/screens/create_poll/add_candidates_screen.dart';
-import 'package:vote/screens/history/history_screen.dart';
-import 'package:vote/screens/home_screen/home_screen.dart';
-import 'package:vote/screens/login_or_signup/sign_in_screen.dart';
+import 'package:vote/screens/login_or_signup/streamer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAppCheck.instance.activate(
+    webProvider: ReCaptchaV3Provider('AIzaSyAB2stfJjm9o3hUWXCxRpzPwNEklIoMxUE'),
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.appAttest,
   );
   runApp(MyApp());
 }
@@ -23,15 +23,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Directionality(
-            textDirection: TextDirection.ltr, child: AddCandidatesScreen()
-            //     HistoryCard(
-            //   pollName: 'NU Poll',
-            //   date: '12/12/2023',
-            //   winnerName: 'Youssef Ahmed',
-            //   winPercentage: 62,
-            //   photoUrl:
-            //       "https://firebasestorage.googleapis.com/v0/b/election-37353.appspot.com/o/94936068.jpg?alt=media&token=3c9ee6f6-8059-4587-9b3d-209db6454eba",
-            // )
-            ));
+            textDirection: TextDirection.ltr, child: LoginStreamer()));
   }
 }

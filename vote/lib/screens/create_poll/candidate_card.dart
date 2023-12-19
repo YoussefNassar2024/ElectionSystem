@@ -96,30 +96,30 @@ class _CandidateCardState extends State<CandidateCard> {
                       )),
           ),
           customVerticalSpace(context: context),
-          customButton(
-              context: context,
-              color: CustomStyle.colorPalette.lightPurple,
-              width: MediaQuery.of(context).size.width * 0.3,
-              height: MediaQuery.of(context).size.height * 0.05,
-              onPressed: () {
-                //TODO: add function
-                if (isExpanded) {
-                  setState(() {
-                    isExpanded = false;
-                  });
-                } else {
-                  setState(() {
-                    isExpanded = true;
-                  });
-                }
-              },
-              childText: (isExpanded) ? "Show less" : "Show More"),
+          (widget.candidateDescription.length >
+                  69) //number of chracter before disaperaring
+              ? customButton(
+                  context: context,
+                  color: CustomStyle.colorPalette.lightPurple,
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  onPressed: () {
+                    //TODO: add function
+                    if (isExpanded) {
+                      setState(() {
+                        isExpanded = false;
+                      });
+                    } else {
+                      setState(() {
+                        isExpanded = true;
+                      });
+                    }
+                  },
+                  childText: (isExpanded) ? "Show less" : "Show More")
+              : SizedBox(),
           customVerticalSpace(context: context)
         ],
       ),
     );
   }
 }
-
-void AddCard(String candidateName, String candidateAge,
-    String candidateDescription, File candidateImage) {}

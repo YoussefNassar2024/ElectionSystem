@@ -7,6 +7,7 @@ import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
+import 'package:vote/screens/create_poll/add_required_data_screen.dart';
 import 'package:vote/screens/create_poll/candidate_card.dart';
 import 'package:vote/style/style.dart';
 
@@ -14,6 +15,10 @@ import 'package:vote/style/style.dart';
 // int timestamp = DateTime.now().subtract(Duration(days: age * 365)).millisecondsSinceEpoch;
 
 class AddCandidatesScreen extends StatefulWidget {
+  final String pollName;
+
+  const AddCandidatesScreen({super.key, required this.pollName});
+
   @override
   State<AddCandidatesScreen> createState() => _AddCandidatesScreenState();
 }
@@ -49,8 +54,9 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
       candidatesEditingWidget.add(Column(
         children: [
           AutoSizeContainer(
-              width: MediaQuery.of(context).size.width * 0.8,
-              color: CustomStyle.colorPalette.purple,
+            width: MediaQuery.of(context).size.width * 0.8,
+            color: CustomStyle.colorPalette.purple,
+            child: SingleChildScrollView(
               child: Column(children: [
                 customVerticalSpace(context: context),
                 Text(
@@ -294,7 +300,9 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                   ],
                 ),
                 customVerticalSpace(context: context),
-              ])),
+              ]),
+            ),
+          ),
           customVerticalSpace(context: context),
         ],
       ));
@@ -330,235 +338,237 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
             AutoSizeContainer(
                 width: MediaQuery.of(context).size.width * 0.8,
                 color: CustomStyle.colorPalette.purple,
-                child: Column(children: [
-                  customVerticalSpace(context: context),
-                  Text(
-                    "Please add candidate #$numOfCandidates:",
-                    style: TextStyle(
-                        color: CustomStyle.colorPalette.white,
-                        fontFamily: CustomStyle.boldFont,
-                        fontSize: CustomStyle.fontSizes.mediumFont),
-                  ),
-                  customVerticalSpace(context: context),
-                  GestureDetector(
-                      onTap: () async {
-                        if (selectedImages.length == numOfCandidates) {
-                          selectedImages.removeLast();
-                          await _pickImages();
-                          print(selectedImages);
-                          updatePhoto(
-                              nameControllers[nameControllers.length - 1],
-                              ageControllers[ageControllers.length - 1],
-                              descriptionControllers[
-                                  descriptionControllers.length - 1]);
-                          setState(() {});
-                        } else {
-                          await _pickImages();
-                          print(selectedImages);
-                          updatePhoto(
-                              nameControllers[nameControllers.length - 1],
-                              ageControllers[ageControllers.length - 1],
-                              descriptionControllers[
-                                  descriptionControllers.length - 1]);
-                          setState(() {});
-                        }
-                      },
-                      child: Container(
-                        height: 150,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: CustomStyle.colorPalette.lightPurple,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: (numOfCandidates == selectedImages.length &&
-                                selectedImages.isNotEmpty)
-                            ? Image.file(
-                                selectedImages.last,
-                                fit: BoxFit.cover,
-                              )
-                            : Center(
-                                child: Text("Select photo"),
-                              ),
-                      )),
-                  customVerticalSpace(context: context),
-                  Text(
-                    "Please add name",
-                    style: TextStyle(
-                        color: CustomStyle.colorPalette.white,
-                        fontFamily: CustomStyle.boldFont,
-                        fontSize: CustomStyle.fontSizes.mediumFont),
-                  ),
-                  customVerticalSpace(context: context),
-                  customTextField(
-                      maxLines: 1,
-                      textEditingController:
-                          nameControllers[nameControllers.length - 1],
-                      context: context,
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      hintText: "Enter Name"),
-                  customVerticalSpace(context: context),
-                  Text(
-                    "Please add age",
-                    style: TextStyle(
-                        color: CustomStyle.colorPalette.white,
-                        fontFamily: CustomStyle.boldFont,
-                        fontSize: CustomStyle.fontSizes.mediumFont),
-                  ),
-                  customVerticalSpace(context: context),
-                  customTextField(
-                      maxLines: 1,
-                      textEditingController:
-                          ageControllers[ageControllers.length - 1],
-                      context: context,
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      hintText: "Enter Age"),
-                  customVerticalSpace(context: context),
-                  Text(
-                    "Please add description",
-                    style: TextStyle(
-                        color: CustomStyle.colorPalette.white,
-                        fontFamily: CustomStyle.boldFont,
-                        fontSize: CustomStyle.fontSizes.mediumFont),
-                  ),
-                  customVerticalSpace(context: context),
-                  customTextField(
-                      textEditingController: descriptionControllers[
-                          descriptionControllers.length - 1],
-                      context: context,
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      hintText: "Enter Description"),
-                  customVerticalSpace(context: context),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      customButton(
-                          context: context,
-                          onPressed: () {
-                            print(nameControllers.length);
-
-                            setState(() {
-                              candidatesEditingWidget
-                                  .removeAt(candidatesEditingWidget.length - 1);
-                              nameControllers
-                                  .removeAt(nameControllers.length - 1);
-                              ageControllers
-                                  .removeAt(ageControllers.length - 1);
-                              descriptionControllers
-                                  .removeAt(descriptionControllers.length - 1);
-                              if (selectedImages.length == numOfCandidates) {
-                                selectedImages
-                                    .removeAt(selectedImages.length - 1);
-                              }
-                              numOfCandidates--;
-                              if (numOfCandidates == 0) {
-                                isCandidatesEmpty = true;
-                              }
-                              isAddingCandidates = false;
-
-                              print(nameControllers);
-                              print(nameControllers.length);
-                            });
-                          },
-                          childText: "Delete",
-                          color: CustomStyle.colorPalette.red,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.06),
-                      customButton(
-                          context: context,
-                          onPressed: () {
-                            //TODO: add save function
-                            print(selectedImages.length);
+                child: SingleChildScrollView(
+                  child: Column(children: [
+                    customVerticalSpace(context: context),
+                    Text(
+                      "Please add candidate #$numOfCandidates:",
+                      style: TextStyle(
+                          color: CustomStyle.colorPalette.white,
+                          fontFamily: CustomStyle.boldFont,
+                          fontSize: CustomStyle.fontSizes.mediumFont),
+                    ),
+                    customVerticalSpace(context: context),
+                    GestureDetector(
+                        onTap: () async {
+                          if (selectedImages.length == numOfCandidates) {
+                            selectedImages.removeLast();
+                            await _pickImages();
                             print(selectedImages);
-                            bool isNameNull = false;
-                            if (nameControllers[nameControllers.length - 1]
-                                        .text
-                                        .trim() !=
-                                    "" ||
-                                nameControllers[nameControllers.length - 1]
-                                    .text
-                                    .trim()
-                                    .isNotEmpty) {
-                              isNameNull = false;
-                            } else {
-                              isNameNull = true;
-                              showSnackBar("Please add Name", context);
-                            }
-                            bool isAgeNull = false;
-                            if (ageControllers[ageControllers.length - 1]
-                                        .text
-                                        .trim() !=
-                                    "" ||
-                                ageControllers[ageControllers.length - 1]
-                                    .text
-                                    .trim()
-                                    .isNotEmpty) {
-                              isAgeNull = false;
-                            } else {
-                              isAgeNull = true;
-                              showSnackBar("Please add Age", context);
-                            }
-                            bool isDescriptionNull = false;
-                            if (descriptionControllers[
-                                            descriptionControllers.length - 1]
-                                        .text
-                                        .trim() !=
-                                    "" ||
+                            updatePhoto(
+                                nameControllers[nameControllers.length - 1],
+                                ageControllers[ageControllers.length - 1],
                                 descriptionControllers[
-                                        descriptionControllers.length - 1]
-                                    .text
-                                    .trim()
-                                    .isNotEmpty) {
-                              isDescriptionNull = false;
-                            } else {
-                              isDescriptionNull = true;
-                              showSnackBar("Please add Description", context);
-                            }
-                            bool isImageNull = false;
-                            if (selectedImages.length == numOfCandidates) {
-                              isImageNull = false;
-                            } else {
-                              isImageNull = true;
-                              showSnackBar("Please add Image", context);
-                            }
-                            bool isAgeInt = true;
-                            if (int.tryParse(
-                                    ageControllers[ageControllers.length - 1]
-                                        .text
-                                        .trim()) !=
-                                null) {
-                              isAgeInt = true;
-                            } else {
-                              isAgeInt = false;
+                                    descriptionControllers.length - 1]);
+                            setState(() {});
+                          } else {
+                            await _pickImages();
+                            print(selectedImages);
+                            updatePhoto(
+                                nameControllers[nameControllers.length - 1],
+                                ageControllers[ageControllers.length - 1],
+                                descriptionControllers[
+                                    descriptionControllers.length - 1]);
+                            setState(() {});
+                          }
+                        },
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            color: CustomStyle.colorPalette.lightPurple,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: (numOfCandidates == selectedImages.length &&
+                                  selectedImages.isNotEmpty)
+                              ? Image.file(
+                                  selectedImages.last,
+                                  fit: BoxFit.cover,
+                                )
+                              : Center(
+                                  child: Text("Select photo"),
+                                ),
+                        )),
+                    customVerticalSpace(context: context),
+                    Text(
+                      "Please add name",
+                      style: TextStyle(
+                          color: CustomStyle.colorPalette.white,
+                          fontFamily: CustomStyle.boldFont,
+                          fontSize: CustomStyle.fontSizes.mediumFont),
+                    ),
+                    customVerticalSpace(context: context),
+                    customTextField(
+                        maxLines: 1,
+                        textEditingController:
+                            nameControllers[nameControllers.length - 1],
+                        context: context,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        hintText: "Enter Name"),
+                    customVerticalSpace(context: context),
+                    Text(
+                      "Please add age",
+                      style: TextStyle(
+                          color: CustomStyle.colorPalette.white,
+                          fontFamily: CustomStyle.boldFont,
+                          fontSize: CustomStyle.fontSizes.mediumFont),
+                    ),
+                    customVerticalSpace(context: context),
+                    customTextField(
+                        maxLines: 1,
+                        textEditingController:
+                            ageControllers[ageControllers.length - 1],
+                        context: context,
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        hintText: "Enter Age"),
+                    customVerticalSpace(context: context),
+                    Text(
+                      "Please add description",
+                      style: TextStyle(
+                          color: CustomStyle.colorPalette.white,
+                          fontFamily: CustomStyle.boldFont,
+                          fontSize: CustomStyle.fontSizes.mediumFont),
+                    ),
+                    customVerticalSpace(context: context),
+                    customTextField(
+                        textEditingController: descriptionControllers[
+                            descriptionControllers.length - 1],
+                        context: context,
+                        width: MediaQuery.of(context).size.width * 0.7,
+                        hintText: "Enter Description"),
+                    customVerticalSpace(context: context),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        customButton(
+                            context: context,
+                            onPressed: () {
+                              print(nameControllers.length);
 
-                              showSnackBar("Please enter valid age", context);
-                            }
-                            if (!isImageNull &&
-                                !isAgeNull &&
-                                !isDescriptionNull &&
-                                !isNameNull &&
-                                isAgeInt) {
                               setState(() {
+                                candidatesEditingWidget.removeAt(
+                                    candidatesEditingWidget.length - 1);
+                                nameControllers
+                                    .removeAt(nameControllers.length - 1);
+                                ageControllers
+                                    .removeAt(ageControllers.length - 1);
+                                descriptionControllers.removeAt(
+                                    descriptionControllers.length - 1);
+                                if (selectedImages.length == numOfCandidates) {
+                                  selectedImages
+                                      .removeAt(selectedImages.length - 1);
+                                }
+                                numOfCandidates--;
+                                if (numOfCandidates == 0) {
+                                  isCandidatesEmpty = true;
+                                }
                                 isAddingCandidates = false;
-                                int timestamp = DateTime.now()
-                                    .subtract(Duration(
-                                        days: int.parse(ageControllers[
-                                                    ageControllers.length - 1]
-                                                .text
-                                                .trim()) *
-                                            365))
-                                    .millisecondsSinceEpoch;
-                                // call add card function and pass all the requirements
+
+                                print(nameControllers);
+                                print(nameControllers.length);
                               });
-                            }
-                          },
-                          childText: "Save",
-                          color: CustomStyle.colorPalette.green,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.height * 0.06),
-                    ],
-                  ),
-                  customVerticalSpace(context: context),
-                ])),
+                            },
+                            childText: "Delete",
+                            color: CustomStyle.colorPalette.red,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.06),
+                        customButton(
+                            context: context,
+                            onPressed: () {
+                              //TODO: add save function
+                              print(selectedImages.length);
+                              print(selectedImages);
+                              bool isNameNull = false;
+                              if (nameControllers[nameControllers.length - 1]
+                                          .text
+                                          .trim() !=
+                                      "" ||
+                                  nameControllers[nameControllers.length - 1]
+                                      .text
+                                      .trim()
+                                      .isNotEmpty) {
+                                isNameNull = false;
+                              } else {
+                                isNameNull = true;
+                                showSnackBar("Please add Name", context);
+                              }
+                              bool isAgeNull = false;
+                              if (ageControllers[ageControllers.length - 1]
+                                          .text
+                                          .trim() !=
+                                      "" ||
+                                  ageControllers[ageControllers.length - 1]
+                                      .text
+                                      .trim()
+                                      .isNotEmpty) {
+                                isAgeNull = false;
+                              } else {
+                                isAgeNull = true;
+                                showSnackBar("Please add Age", context);
+                              }
+                              bool isDescriptionNull = false;
+                              if (descriptionControllers[
+                                              descriptionControllers.length - 1]
+                                          .text
+                                          .trim() !=
+                                      "" ||
+                                  descriptionControllers[
+                                          descriptionControllers.length - 1]
+                                      .text
+                                      .trim()
+                                      .isNotEmpty) {
+                                isDescriptionNull = false;
+                              } else {
+                                isDescriptionNull = true;
+                                showSnackBar("Please add Description", context);
+                              }
+                              bool isImageNull = false;
+                              if (selectedImages.length == numOfCandidates) {
+                                isImageNull = false;
+                              } else {
+                                isImageNull = true;
+                                showSnackBar("Please add Image", context);
+                              }
+                              bool isAgeInt = true;
+                              if (int.tryParse(
+                                      ageControllers[ageControllers.length - 1]
+                                          .text
+                                          .trim()) !=
+                                  null) {
+                                isAgeInt = true;
+                              } else {
+                                isAgeInt = false;
+
+                                showSnackBar("Please enter valid age", context);
+                              }
+                              if (!isImageNull &&
+                                  !isAgeNull &&
+                                  !isDescriptionNull &&
+                                  !isNameNull &&
+                                  isAgeInt) {
+                                setState(() {
+                                  isAddingCandidates = false;
+                                  int timestamp = DateTime.now()
+                                      .subtract(Duration(
+                                          days: int.parse(ageControllers[
+                                                      ageControllers.length - 1]
+                                                  .text
+                                                  .trim()) *
+                                              365))
+                                      .millisecondsSinceEpoch;
+                                  // call add card function and pass all the requirements
+                                });
+                              }
+                            },
+                            childText: "Save",
+                            color: CustomStyle.colorPalette.green,
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            height: MediaQuery.of(context).size.height * 0.06),
+                      ],
+                    ),
+                    customVerticalSpace(context: context),
+                  ]),
+                )),
             customVerticalSpace(context: context),
           ],
         ));
@@ -628,10 +638,16 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                     setState(() {
                       candidates.add(Candidate(
                           name: nameControllers[i].text.trim(),
-                          photo: selectedImages[i],
-                          dateOfBirth: ageControllers[i].text.trim(),
+                          photo: "",
+                          age: ageControllers[i].text.trim(),
                           description: descriptionControllers[i].text.trim()));
                     });
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddRequiredData(
+                              candidatesimages: selectedImages,
+                              pollName: widget.pollName,
+                              candidates: candidates,
+                            )));
                   }
                   //TODO: add navigation
                 } else if (isAddingCandidates) {
