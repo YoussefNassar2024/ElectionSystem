@@ -4,7 +4,7 @@ import 'package:vote/models/poll_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class PollService {
-  static Future<void> uploadPollToFirebase(String docId, Poll poll) async {
+  static Future<void> createPoll(String docId, Poll poll) async {
     try {
       // Save the poll data to Firestore
       await FirebaseFirestore.instance

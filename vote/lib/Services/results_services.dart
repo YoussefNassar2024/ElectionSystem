@@ -10,5 +10,18 @@ class ResultsService {
     return Results.fromJson(snapshot.data()!);
   }
 
+  static Future<void> uploadResults(String docId, Results result) async {
+    try {
+      // Save the poll data to Firestore
+      await FirebaseFirestore.instance
+          .collection('results')
+          .doc(docId)
+          .set(result.toJson());
+
+      print('Poll uploaded successfully to Firestore!');
+    } catch (e) {
+      print('Error uploading poll to Firestore: $e');
+    }
+  }
   // Additional methods for computing and displaying results...
 }

@@ -46,14 +46,14 @@ class Poll {
   String pollCode;
   Timestamp pollExpiryDate; // Representing pollExpiryDate as Timestamp
   bool pollFinished;
-
-  Poll({
-    required this.title,
-    required this.candidates,
-    required this.pollCode,
-    required this.pollExpiryDate,
-    required this.pollFinished,
-  });
+  List<Map<String, String>> requiredData;
+  Poll(
+      {required this.title,
+      required this.candidates,
+      required this.pollCode,
+      required this.pollExpiryDate,
+      required this.pollFinished,
+      required this.requiredData});
 
   factory Poll.fromJson(Map<String, dynamic> json) {
     return Poll(
@@ -63,6 +63,9 @@ class Poll {
       pollCode: json['pollCode'],
       pollExpiryDate: json['pollExpiryDate'],
       pollFinished: json['pollFinished'],
+      requiredData: List<Map<String, String>>.from(
+        json['requiredData'].map((data) => Map<String, String>.from(data)),
+      ),
     );
   }
 
@@ -73,6 +76,7 @@ class Poll {
       'pollCode': pollCode,
       'pollExpiryDate': pollExpiryDate,
       'pollFinished': pollFinished,
+      'requiredData': requiredData
     };
   }
 }

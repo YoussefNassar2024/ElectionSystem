@@ -3,21 +3,25 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:vote/Services/poll_services.dart';
+import 'package:vote/Services/results_services.dart';
 import 'package:vote/Services/storage_services.dart';
+import 'package:vote/Services/user_services.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
+import 'package:vote/models/results_model.dart';
 import 'package:vote/screens/home_screen/home_screen.dart';
 import 'package:vote/style/style.dart';
 
 class DeadLinePickerScreen extends StatefulWidget {
-  const DeadLinePickerScreen(
-      {super.key,
-      required this.pollName,
-      required this.candidates,
-      required this.dataFromUser,
-      required this.candidatesPhotos});
+  const DeadLinePickerScreen({
+    super.key,
+    required this.pollName,
+    required this.candidates,
+    required this.dataFromUser,
+    required this.candidatesPhotos,
+  });
   final String pollName;
   final List<File> candidatesPhotos;
   final List<Candidate> candidates;
@@ -31,7 +35,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
   String selectedMonth = 'January';
   String selectedYear = '2024';
   List<String?> photosUrl = [];
-
+  List<Map<String, dynamic>> resultsToBeUploaded = [];
   List<String> days = List.generate(31, (index) => (index + 1).toString());
   List<String> months = [
     'January',
@@ -327,14 +331,22 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                           widget.candidates[i].photo = photosUrl[i]!;
                         });
                       }
-                      await PollService.uploadPollToFirebase(
+                      await PollService.createPoll(
                           pollCode,
                           Poll(
+                              requiredData: widget.dataFromUser,
                               candidates: widget.candidates,
                               pollCode: pollCode,
                               pollExpiryDate: selectedDateTimeStamp,
                               pollFinished: false,
                               title: widget.pollName));
+                      for (var i = 0; i < widget.candidates.length; i++) {
+                        resultsToBeUploaded
+                            .add({"${widget.candidates[i].name}": 0});
+                      }
+                      await ResultsService.uploadResults(pollCode,
+                          Results(candidateResults: resultsToBeUploaded));
+                      await UserService.addCreatedPoll(pollCode);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => HomeScreen()));
                     } on Exception catch (e) {
