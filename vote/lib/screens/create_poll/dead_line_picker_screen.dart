@@ -11,6 +11,7 @@ import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
 import 'package:vote/models/results_model.dart';
+import 'package:vote/screens/create_poll/poll_code_screen.dart';
 import 'package:vote/screens/home_screen/home_screen.dart';
 import 'package:vote/style/style.dart';
 
@@ -348,7 +349,9 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                           Results(candidateResults: resultsToBeUploaded));
                       await UserService.addCreatedPoll(pollCode);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => HomeScreen()));
+                          builder: (context) => PollCodeScreen(
+                                pollCode: pollCode,
+                              )));
                     } on Exception catch (e) {
                       showSnackBar(e.toString(), context);
                     }
