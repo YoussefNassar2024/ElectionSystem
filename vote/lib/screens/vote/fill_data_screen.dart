@@ -8,6 +8,7 @@ import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
+import 'package:vote/screens/vote/choose_candidate_screen.dart';
 import 'package:vote/style/style.dart';
 
 class FillDataScreen extends StatefulWidget {
@@ -246,13 +247,23 @@ class _FillDataScreenState extends State<FillDataScreen> {
                                         )),
                                   ),
                                   customVerticalSpace(context: context),
-                                  Container(
-                                    color: CustomStyle.colorPalette.lightPurple,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.15,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
-                                    child: GestureDetector(
+                                  GestureDetector(
+                                    onTap: () async {
+                                      if (index >= 0 &&
+                                          index < selectedImages.length) {
+                                        await _updateImages(index);
+                                      } else {
+                                        await _pickImages();
+                                      }
+                                    },
+                                    child: Container(
+                                      color:
+                                          CustomStyle.colorPalette.lightPurple,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.15,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.4,
                                       child: (index >= 0 &&
                                               index < selectedImages.length)
                                           ? Image.file(
@@ -262,14 +273,6 @@ class _FillDataScreenState extends State<FillDataScreen> {
                                           : Center(
                                               child:
                                                   Text("Please select photo")),
-                                      onTap: () async {
-                                        if (index >= 0 &&
-                                            index < selectedImages.length) {
-                                          await _updateImages(index);
-                                        } else {
-                                          await _pickImages();
-                                        }
-                                      },
                                     ),
                                   ),
                                   customVerticalSpace(context: context),
@@ -337,7 +340,11 @@ class _FillDataScreenState extends State<FillDataScreen> {
                     .addAll({"${namesOfRequiredImages[i]}": selectedImages[i]});
               }
               //TODO: pass the voterdata map and poll from widget
-              // Navigator.of(context).push(MaterialPageRoute(builder: ((context) => NextPage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: ((context) => ChooseCandidateScreen(
+                        poll: widget.poll,
+                        userData: voterData,
+                      ))));
             }
           },
           childText: "Done"),

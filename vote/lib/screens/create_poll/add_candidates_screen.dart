@@ -28,6 +28,8 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
   List<TextEditingController> nameControllers = [];
   List<TextEditingController> descriptionControllers = [];
   List<TextEditingController> ageControllers = [];
+  List<String> candidateId = [];
+  int candidateIdCount = 0;
   bool isCandidatesEmpty = true;
   List<Widget> candidatesEditingWidget = [];
   List<Widget> candidatesCards = [];
@@ -51,6 +53,7 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
       TextEditingController descriptionController) {
     if (numOfCandidates == selectedImages.length && selectedImages.isNotEmpty) {
       candidatesEditingWidget.removeAt(candidatesEditingWidget.length - 1);
+
       candidatesEditingWidget.add(Column(
         children: [
           AutoSizeContainer(
@@ -190,8 +193,7 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                         context: context,
                         onPressed: () {
                           //TODO: add save function
-                          print(selectedImages.length);
-                          print(selectedImages);
+                          print("This is candidates ID:$candidateId");
                           bool isNameNull = false;
                           if (nameControllers[nameControllers.length - 1]
                                       .text
@@ -329,7 +331,9 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
       nameControllers.add(TextEditingController());
       descriptionControllers.add(TextEditingController());
       ageControllers.add(TextEditingController());
+      candidateId.add(candidateIdCount.toString());
       setState(() {
+        candidateIdCount++;
         numOfCandidates++;
         isAddingCandidates = true;
         isCandidatesEmpty = false;
@@ -452,6 +456,7 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                                     .removeAt(nameControllers.length - 1);
                                 ageControllers
                                     .removeAt(ageControllers.length - 1);
+                                candidateId.removeAt(candidateId.length - 1);
                                 descriptionControllers.removeAt(
                                     descriptionControllers.length - 1);
                                 if (selectedImages.length == numOfCandidates) {
@@ -637,6 +642,7 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                   for (var i = 0; i < numOfCandidates; i++) {
                     setState(() {
                       candidates.add(Candidate(
+                          Id: candidateId[i],
                           name: nameControllers[i].text.trim(),
                           photo: "",
                           age: ageControllers[i].text.trim(),

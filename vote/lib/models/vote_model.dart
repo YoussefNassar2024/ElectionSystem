@@ -2,7 +2,7 @@ class Vote {
   String candidateId;
   String pollId;
   String voterId;
-  Map<String, dynamic> voterData;
+  Map<String, String> voterData;
 
   Vote({
     required this.candidateId,

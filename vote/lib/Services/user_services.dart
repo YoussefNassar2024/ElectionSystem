@@ -33,10 +33,16 @@ class UserService {
     }
   }
 
-  Future<void> addContributedPoll(String pollId, String userId) async {
-    await FirebaseFirestore.instance.collection('users').doc(userId).set({
-      'contributedPolls': FieldValue.arrayUnion([pollId]),
-    });
+  static Future<void> addContributedPoll(String pollId) async {
+    try {
+      String userId = FireBaseAuthenticationServices.getCurrentUserId();
+
+      await FirebaseFirestore.instance.collection('users').doc(userId).update({
+        'contributedPolls': FieldValue.arrayUnion([pollId]),
+      });
+    } catch (e) {
+      print('Error adding contributed poll: $e');
+    }
   }
 
   // Additional methods for user-related operations...

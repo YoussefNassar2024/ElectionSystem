@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vote/Services/authentication_services.dart';
 import 'package:vote/Services/poll_services.dart';
+import 'package:vote/Services/vote_services.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
@@ -107,6 +109,7 @@ class HomeScreen extends StatelessWidget {
                   customTextField(
                     textEditingController: joinCodeController,
                     context: context,
+                    maxLenght: 14,
                     maxLines: 1,
                     width: MediaQuery.of(context).size.width * 0.7,
                     height: MediaQuery.of(context).size.height * 0.025,
@@ -124,21 +127,29 @@ class HomeScreen extends StatelessWidget {
                               joinCodeController.text.trim());
                           if (poll != null) {
                             // The poll is retrieved successfully, navigate to another screen
-//TODO: check if poll is not expired
-                            Timestamp myTimestamp = Timestamp.now();
-                            print(isTimestampExpired(myTimestamp,
-                                timestampToDuration(poll.pollExpiryDate)));
-                            if (!isTimestampExpired(myTimestamp,
-                                timestampToDuration(poll.pollExpiryDate))) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      FillDataScreen(poll: poll),
-                                ),
-                              );
+                            bool hasUserVoted = await VoteService.hasUserVoted(
+                                joinCodeController.text.trim(),
+                                FireBaseAuthenticationServices
+                                    .getCurrentUserId());
+                            if (!hasUserVoted) {
+                              //TODO: check if poll is not expired
+                              Timestamp myTimestamp = Timestamp.now();
+                              print(isTimestampExpired(myTimestamp,
+                                  timestampToDuration(poll.pollExpiryDate)));
+                              if (!isTimestampExpired(myTimestamp,
+                                  timestampToDuration(poll.pollExpiryDate))) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        FillDataScreen(poll: poll),
+                                  ),
+                                );
+                              } else {
+                                showSnackBar("Poll is expired", context);
+                              }
                             } else {
-                              showSnackBar("Poll is expired", context);
+                              showSnackBar("You Have Voted!", context);
                             }
                           } else {
                             // Handle the case where the poll is not found

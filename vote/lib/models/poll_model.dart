@@ -11,9 +11,10 @@ class Candidate {
   String photo;
   String age;
   String description;
-
+  String Id;
   Candidate({
     required this.name,
+    required this.Id,
     required this.photo,
     required this.age,
     required this.description,
@@ -21,6 +22,7 @@ class Candidate {
 
   factory Candidate.fromJson(Map<String, dynamic> json) {
     return Candidate(
+      Id: json['id'],
       name: json['name'],
       photo: json['photo'],
       age: json['age'],
@@ -30,6 +32,7 @@ class Candidate {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': Id,
       'name': name,
       'photo': photo,
       'age': age,
