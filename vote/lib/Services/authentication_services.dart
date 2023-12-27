@@ -5,8 +5,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:vote/custom_components/utils.dart';
 
 class FireBaseAuthenticationServices {
-  String? currentUserID;
-  String getCurrentUserId() {
+  static String? currentUserID;
+  static String getCurrentUserId() {
     if (FirebaseAuth.instance.currentUser != null) {
       currentUserID = FirebaseAuth.instance.currentUser?.uid;
     }
