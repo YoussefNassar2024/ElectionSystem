@@ -355,8 +355,10 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                               voterId: FireBaseAuthenticationServices
                                   .getCurrentUserId(),
                               voterData: dataToUpload));
-                          await ResultsService.placeVote(widget.poll.pollCode,
-                              int.parse(selectedCandidateId));
+                          await ResultsService.placeVote(
+                              widget.poll.pollCode,
+                              int.parse(
+                                  selectedCandidateId)); //TODO: remove and add to approve votes
                           await UserService.addContributedPoll(
                               widget.poll.pollCode);
                           Navigator.of(context).pushReplacement(
