@@ -1,7 +1,6 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:vote/Services/poll_services.dart';
 import 'package:vote/firebase_options.dart';
 import 'package:vote/screens/login_or_signup/streamer.dart';
 
@@ -15,6 +14,7 @@ void main() async {
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.appAttest,
   );
+
   runApp(MyApp());
 }
 

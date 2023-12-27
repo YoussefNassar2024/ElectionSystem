@@ -62,6 +62,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 customTextField(
+                  maxLines: 1,
                   textEditingController:
                       dataNameController[dataNameController.length - 1],
                   context: context,
@@ -189,6 +190,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   customTextField(
+                                    maxLines: 1,
                                     textEditingController: mainController,
                                     context: context,
                                     hintText: "Data name",
@@ -413,6 +415,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         customTextField(
+                                          maxLines: 1,
                                           textEditingController:
                                               dataNameController[
                                                   dataNameController.length -
@@ -507,6 +510,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         customTextField(
+                                          maxLines: 1,
                                           textEditingController:
                                               dataNameController[
                                                   dataNameController.length -
@@ -599,6 +603,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         customTextField(
+                                          maxLines: 1,
                                           textEditingController:
                                               dataNameController[
                                                   dataNameController.length -

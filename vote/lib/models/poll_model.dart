@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 ////////////////////////////////////////Important notes////////////////////////////////////////////////////////
@@ -13,9 +11,10 @@ class Candidate {
   String photo;
   String age;
   String description;
-
+  String Id;
   Candidate({
     required this.name,
+    required this.Id,
     required this.photo,
     required this.age,
     required this.description,
@@ -23,6 +22,7 @@ class Candidate {
 
   factory Candidate.fromJson(Map<String, dynamic> json) {
     return Candidate(
+      Id: json['id'],
       name: json['name'],
       photo: json['photo'],
       age: json['age'],
@@ -32,6 +32,7 @@ class Candidate {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': Id,
       'name': name,
       'photo': photo,
       'age': age,
@@ -46,14 +47,14 @@ class Poll {
   String pollCode;
   Timestamp pollExpiryDate; // Representing pollExpiryDate as Timestamp
   bool pollFinished;
-
-  Poll({
-    required this.title,
-    required this.candidates,
-    required this.pollCode,
-    required this.pollExpiryDate,
-    required this.pollFinished,
-  });
+  List<Map<String, String>> requiredData;
+  Poll(
+      {required this.title,
+      required this.candidates,
+      required this.pollCode,
+      required this.pollExpiryDate,
+      required this.pollFinished,
+      required this.requiredData});
 
   factory Poll.fromJson(Map<String, dynamic> json) {
     return Poll(
@@ -63,6 +64,9 @@ class Poll {
       pollCode: json['pollCode'],
       pollExpiryDate: json['pollExpiryDate'],
       pollFinished: json['pollFinished'],
+      requiredData: List<Map<String, String>>.from(
+        json['requiredData'].map((data) => Map<String, String>.from(data)),
+      ),
     );
   }
 
@@ -73,6 +77,7 @@ class Poll {
       'pollCode': pollCode,
       'pollExpiryDate': pollExpiryDate,
       'pollFinished': pollFinished,
+      'requiredData': requiredData
     };
   }
 }

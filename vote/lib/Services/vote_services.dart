@@ -1,12 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:vote/Services/authentication_services.dart';
 import 'package:vote/models/vote_model.dart';
 
 class VoteService {
-  Future<void> castVote(Vote vote) async {
-    await FirebaseFirestore.instance.collection('votes').add(vote.toJson());
+  static Future<void> uploadVote(Vote vote) async {
+    await FirebaseFirestore.instance
+        .collection('votes')
+        .doc(FireBaseAuthenticationServices.currentUserID)
+        .set(vote.toJson());
   }
 
-  Future<bool> hasUserVoted(String pollId, String userId) async {
+  static Future<bool> hasUserVoted(String pollId, String userId) async {
     final querySnapshot = await FirebaseFirestore.instance
         .collection('votes')
         .where('pollId', isEqualTo: pollId)

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
@@ -37,8 +38,8 @@ class AddCandidatesScreenState extends State<PollCodeScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: Container(
-              height: 350,
-              width: 300,
+              height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.8,
               color: CustomStyle.colorPalette.purple,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -47,33 +48,49 @@ class AddCandidatesScreenState extends State<PollCodeScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: CustomStyle.colorPalette.white,
-                          fontSize: CustomStyle.fontSizes.largeFont,
+                          fontSize: CustomStyle.fontSizes.largeFont + 5,
                           fontFamily: CustomStyle.boldFont)),
                   Text("Share the poll using this code: ",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                           color: CustomStyle.colorPalette.white,
-                          fontSize: CustomStyle.fontSizes.subMediumFont,
+                          fontSize: CustomStyle.fontSizes.mediumFont,
                           fontFamily: CustomStyle.semiBoldFont)),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Container(
-                        height: 100,
-                        width: 200,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        width: MediaQuery.of(context).size.width * 0.7,
                         color: CustomStyle.colorPalette.lightPurple,
-                        child: SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: Align(
-                                alignment: const Alignment(1.5, -1),
-                                child: IconButton(
-                                  onPressed: () {
-                                    //TODO: add copy function
-                                  },
-                                  icon: Image.asset('assets/images/copy.png'),
-                                  iconSize: 20,
-                                  padding: const EdgeInsets.all(35),
-                                )))),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.1),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                widget.pollCode,
+                                style: TextStyle(
+                                    fontFamily: CustomStyle.meduimFont,
+                                    color: CustomStyle.colorPalette.darkPurple),
+                              ),
+                              IconButton(
+                                onPressed: () async {
+                                  //TODO: add copy function
+                                  await Clipboard.setData(
+                                      ClipboardData(text: widget.pollCode));
+                                },
+                                icon: Image.asset(
+                                  'assets/images/copy.png',
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.03,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.06,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
                   )
                 ],
               ),
@@ -87,11 +104,12 @@ class AddCandidatesScreenState extends State<PollCodeScreen> {
             },
             childText: "Done",
             color: CustomStyle.colorPalette.lightPurple,
-            width: 100,
+            width: MediaQuery.of(context).size.width * 0.5,
             height: 50,
             textStyle: TextStyle(
                 color: CustomStyle.colorPalette.darkPurple,
-                fontSize: CustomStyle.fontSizes.largeFont),
+                fontSize: CustomStyle.fontSizes.largeFont,
+                fontFamily: CustomStyle.boldFont),
           ),
         ],
       ),
