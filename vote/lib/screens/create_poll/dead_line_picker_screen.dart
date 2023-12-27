@@ -343,7 +343,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                               title: widget.pollName));
                       for (var i = 0; i < widget.candidates.length; i++) {
                         resultsToBeUploaded
-                            .add({"${widget.candidates[i].name}": 0});
+                            .add({"${widget.candidates[i].Id}": 0});
                       }
                       await ResultsService.uploadResults(pollCode,
                           Results(candidateResults: resultsToBeUploaded));

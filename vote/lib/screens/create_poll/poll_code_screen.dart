@@ -66,6 +66,7 @@ class AddCandidatesScreenState extends State<PollCodeScreen> {
                           padding: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width * 0.1),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 widget.pollCode,
