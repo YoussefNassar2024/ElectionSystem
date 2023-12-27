@@ -47,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Center(
               child: Image.asset(
                 "assets/images/loginScreen.png",
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.5,
               ),
             ),
             Row(

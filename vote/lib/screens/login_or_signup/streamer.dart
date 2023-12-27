@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:vote/screens/home_screen/home_screen.dart';
+import 'package:vote/screens/login_or_signup/sign_in_screen.dart';
 
 class LoginStreamer extends StatelessWidget {
   @override
@@ -17,7 +18,7 @@ class LoginStreamer extends StatelessWidget {
           return HomeScreen();
         } else {
           // User is not signed in or email is not verified, navigate to sign-up/login screen
-          return LoginStreamer();
+          return SignInScreen();
         }
       },
     );
