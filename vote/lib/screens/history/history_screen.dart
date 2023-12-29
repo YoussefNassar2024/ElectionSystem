@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:vote/Services/poll_services.dart';
 import 'package:vote/Services/results_services.dart';
 import 'package:vote/Services/user_services.dart';
-import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/models/poll_history.dart';
 import 'package:vote/models/poll_model.dart';

@@ -5,6 +5,7 @@ import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/models/poll_history.dart';
 import 'package:vote/models/poll_model.dart';
 import 'package:vote/models/results_model.dart';
+import 'package:vote/screens/history/history_poll_code_screen.dart';
 import 'package:vote/screens/history/poll_details_screen.dart';
 import 'package:vote/style/style.dart';
 
@@ -122,20 +123,37 @@ class _HistoryCardState extends State<HistoryCard> {
               context: context,
               onPressed: () {
                 //TODO: if condition if poll expired or not
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => PollDetailsScreen(
-                          pollDetails: widget.pollDetails,
-                          winPercentage: widget.winPercentage.toString(),
-                          winnerPhoto: widget.winnerphotoUrl,
-                          isDarw: widget.isDraw,
-                          winnerName: widget.winnerName,
-                          isExpired: widget.isExpired,
-                          totalNumberOfVotes: widget.totalNumberOfVotes,
-                          isCreator: widget.isPollCreator,
-                          winnerVotesCount: widget.winnerVotesCount,
-                          winnerId: widget.winnerId,
-                          noApprovedVotes: widget.isNoVotes,
-                        )));
+                if (widget.isExpired) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => PollDetailsScreen(
+                            pollDetails: widget.pollDetails,
+                            winPercentage: widget.winPercentage.toString(),
+                            winnerPhoto: widget.winnerphotoUrl,
+                            isDarw: widget.isDraw,
+                            winnerName: widget.winnerName,
+                            isExpired: widget.isExpired,
+                            totalNumberOfVotes: widget.totalNumberOfVotes,
+                            isCreator: widget.isPollCreator,
+                            winnerVotesCount: widget.winnerVotesCount,
+                            winnerId: widget.winnerId,
+                            noApprovedVotes: widget.isNoVotes,
+                          )));
+                } else {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => HistoryPollCodeScreen(
+                            pollDetails: widget.pollDetails,
+                            winPercentage: widget.winPercentage.toString(),
+                            winnerPhoto: widget.winnerphotoUrl,
+                            isDarw: widget.isDraw,
+                            winnerName: widget.winnerName,
+                            isExpired: widget.isExpired,
+                            totalNumberOfVotes: widget.totalNumberOfVotes,
+                            isCreator: widget.isPollCreator,
+                            winnerVotesCount: widget.winnerVotesCount,
+                            winnerId: widget.winnerId,
+                            noApprovedVotes: widget.isNoVotes,
+                          )));
+                }
               },
               childText: "Show more details",
               color: CustomStyle.colorPalette.lightPurple),
