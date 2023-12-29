@@ -3,14 +3,14 @@ import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/style/style.dart';
 
-class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+class HistoryPollCodeScreen extends StatefulWidget {
+  const HistoryPollCodeScreen({super.key});
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
+  State<HistoryPollCodeScreen> createState() => _HistoryPollCodeScreenState();
 }
 
-class _HistoryScreenState extends State<HistoryScreen> {
+class _HistoryPollCodeScreenState extends State<HistoryPollCodeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
