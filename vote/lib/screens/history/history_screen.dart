@@ -76,9 +76,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   Candidate? getCandidateFromId(int index) {
     String candidateId = winnerCandidateCalculator(index);
-    for (var i = 0; i < pollsAndResults.length; i++) {
-      if (pollsAndResults[i].poll!.candidates[i].Id == candidateId) {
-        return pollsAndResults[i].poll!.candidates[i];
+    for (var i = 0; i < pollsAndResults[index].poll!.candidates.length; i++) {
+      if (pollsAndResults[index].poll!.candidates[i].Id == candidateId) {
+        print(
+            "Current candidate id -> ${pollsAndResults[index].poll!.candidates[i].Id}");
+        print("targer candidate id -> $candidateId");
+        return pollsAndResults[index].poll!.candidates[i];
       }
     }
   }
