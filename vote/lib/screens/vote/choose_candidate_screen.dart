@@ -349,12 +349,14 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                           for (var i = 0; i < newImagesLinks.length; i++) {
                             dataToUpload.addAll(newImagesLinks[i]);
                           }
-                          await VoteService.uploadVote(Vote(
-                              candidateId: selectedCandidateID,
-                              pollId: widget.poll.pollCode,
-                              voterId: FireBaseAuthenticationServices
-                                  .getCurrentUserId(),
-                              voterData: dataToUpload));
+                          await VoteService.uploadVote(
+                              Vote(
+                                  candidateId: selectedCandidateID,
+                                  pollId: widget.poll.pollCode,
+                                  voterId: FireBaseAuthenticationServices
+                                      .getCurrentUserId(),
+                                  voterData: dataToUpload),
+                              widget.poll.pollCode);
                           await ResultsService.placeVote(
                               widget.poll.pollCode,
                               int.parse(

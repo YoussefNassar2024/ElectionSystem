@@ -9,6 +9,7 @@ import 'package:vote/custom_components/custom_textfield.dart';
 import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
 import 'package:vote/screens/create_poll/poll_title_screen.dart';
+import 'package:vote/screens/history/history_screen.dart';
 import 'package:vote/screens/vote/fill_data_screen.dart';
 import 'package:vote/style/style.dart';
 
@@ -60,6 +61,8 @@ class HomeScreen extends StatelessWidget {
                 context: context,
                 onPressed: () {
                   //TODO: add navigation to history screen
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HistoryScreen()));
                 },
                 childText: "Show history",
                 height: MediaQuery.of(context).size.height * 0.09,
@@ -127,15 +130,16 @@ class HomeScreen extends StatelessWidget {
                               joinCodeController.text.trim());
                           if (poll != null) {
                             // The poll is retrieved successfully, navigate to another screen
-                            bool hasUserVoted = await VoteService.hasUserVoted(
+                            bool? hasUserVoted = await VoteService.hasUserVoted(
                                 joinCodeController.text.trim(),
                                 FireBaseAuthenticationServices
                                     .getCurrentUserId());
-                            if (!hasUserVoted) {
+                            if (!hasUserVoted!) {
                               //TODO: check if poll is not expired
                               Timestamp myTimestamp = Timestamp.now();
                               print(isTimestampExpired(myTimestamp,
                                   timestampToDuration(poll.pollExpiryDate)));
+
                               if (!isTimestampExpired(myTimestamp,
                                   timestampToDuration(poll.pollExpiryDate))) {
                                 Navigator.push(

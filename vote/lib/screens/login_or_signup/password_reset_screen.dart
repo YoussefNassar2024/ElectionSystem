@@ -54,6 +54,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                 height: MediaQuery.of(context).size.height * 0.05),
             customTextField(
                 textEditingController: _emailController,
+                maxLines: 1,
                 context: context,
                 hintText: "Enter your email",
                 height: MediaQuery.of(context).size.height * 0.02),
