@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:vote/Services/authentication_services.dart';
 import 'package:vote/Services/results_services.dart';
@@ -33,14 +31,12 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
   void checkForImages() {
     for (var data in widget.poll.requiredData) {
       if (data['data type'] == 'Image') {
-        print('Found Image in data type for ${data['data name']}');
         nameOfFieldsThatContainImages.add({
-          '${data.values.first}': '${data.values.last}',
+          data.values.first: data.values.last,
         });
-        print(nameOfFieldsThatContainImages);
       } else if (data['data type'] == 'Text' || data['data type'] == 'Number') {
         dataToUpload.addAll({
-          '${data.values.first}': '${data.values.last}',
+          data.values.first: data.values.last,
         });
       }
     }
@@ -84,7 +80,7 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                       ListView.builder(
                           itemCount: widget.poll.candidates.length,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: ((context, index) {
                             return Column(
                               children: [
@@ -96,7 +92,6 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                                       selectedCandidateName =
                                           widget.poll.candidates[index].name;
                                     });
-                                    print(selectedCandidateID);
                                   },
                                   child: AutoSizeContainer(
                                     width:
@@ -139,7 +134,10 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                                                     child: Column(
                                                       children: [
                                                         Text(
-                                                          "${widget.poll.candidates[index].name}",
+                                                          widget
+                                                              .poll
+                                                              .candidates[index]
+                                                              .name,
                                                           style: TextStyle(
                                                               fontFamily:
                                                                   CustomStyle
@@ -184,7 +182,7 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                                                     child: Image.asset(
                                                         "assets/images/checkedIcon.png"),
                                                   )
-                                                : SizedBox()
+                                                : const SizedBox()
                                           ],
                                         ),
                                         Padding(
@@ -199,7 +197,10 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                                               child: (isExpanded[index])
                                                   ? Expanded(
                                                       child: Text(
-                                                        "${widget.poll.candidates[index].description}",
+                                                        widget
+                                                            .poll
+                                                            .candidates[index]
+                                                            .description,
                                                         style: TextStyle(
                                                             fontFamily:
                                                                 CustomStyle
@@ -213,7 +214,10 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                                                       ),
                                                     )
                                                   : Text(
-                                                      "${widget.poll.candidates[index].description}",
+                                                      widget
+                                                          .poll
+                                                          .candidates[index]
+                                                          .description,
                                                       style: TextStyle(
                                                           fontFamily:
                                                               CustomStyle
@@ -260,7 +264,7 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                                                 childText: (isExpanded[index])
                                                     ? "Show less"
                                                     : "Show More")
-                                            : SizedBox(),
+                                            : const SizedBox(),
                                         customVerticalSpace(context: context)
                                       ],
                                     ),
@@ -284,13 +288,8 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
               context: context,
               onPressed: () {
                 //TODO: add vote function
-                if (selectedCandidateName != null) {
-                  //TODO: add dialog
-                  _showPopup(
-                      context, selectedCandidateID, selectedCandidateName);
-                } else {
-                  showSnackBar("Please choose candidate", context);
-                }
+                //TODO: add dialog
+                _showPopup(context, selectedCandidateID, selectedCandidateName);
               },
               childText: "Done")
         ],
@@ -332,16 +331,13 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                             if (widget.userData.containsKey(keyToSearch)) {
                               var fileLink =
                                   widget.userData[keyToSearch]; //File
-                              imagesToUpload.add({"$keyToSearch": fileLink});
-                            } else {
-                              print('$keyToSearch not found in the map.');
-                            }
+                              imagesToUpload.add({keyToSearch: fileLink});
+                            } else {}
                           }
-                          print(imagesToUpload);
                           List<Map<String, String>> newImagesLinks = [];
                           for (var i = 0; i < imagesToUpload.length; i++) {
                             newImagesLinks.add({
-                              "${imagesToUpload[i].keys.first}":
+                              imagesToUpload[i].keys.first:
                                   " ${await StorageServices.uploadVoterImageToStorage(imagesToUpload[i].values.last, widget.poll.pollCode, imagesToUpload[i].keys.first, FireBaseAuthenticationServices.getCurrentUserId())}"
                             });
                           }

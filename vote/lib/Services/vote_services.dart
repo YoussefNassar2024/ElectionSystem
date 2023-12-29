@@ -22,7 +22,7 @@ class VoteService {
           .get();
 
       return querySnapshot.docs.isNotEmpty;
-    } on Exception catch (e) {
+    } on Exception {
       // TODO
       return null;
     }

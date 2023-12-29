@@ -70,7 +70,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
         .keys
         .first
         .toString();
-    print("see this: $winnerCandidateId");
     return winnerCandidateId;
   }
 
@@ -78,12 +77,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
     String candidateId = winnerCandidateCalculator(index);
     for (var i = 0; i < pollsAndResults[index].poll!.candidates.length; i++) {
       if (pollsAndResults[index].poll!.candidates[i].Id == candidateId) {
-        print(
-            "Current candidate id -> ${pollsAndResults[index].poll!.candidates[i].Id}");
-        print("targer candidate id -> $candidateId");
         return pollsAndResults[index].poll!.candidates[i];
       }
     }
+    return null;
   }
 
   int calculateTotalNumberOfVotes(int index) {
@@ -97,11 +94,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
           .values
           .last
           .toString());
-      print(
-          "See This ************************ ${pollsAndResults[index].results!.candidateResults[i].values.last}");
     }
 
-    print("This is total: $total");
     return total;
   }
 
@@ -146,10 +140,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
             results.candidateResults[j].values.last) {
           isDraw = true;
         }
-        print(
-            "see i ****************${results.candidateResults[i].values.first}");
-        print(
-            "see j ****************${results.candidateResults[j].values.first}");
       }
     }
     return isDraw;
@@ -201,10 +191,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               // If the Future is still running, show a loading indicator
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               // If an error occurred, handle it accordingly
-              return Center(child: Text('Error loading data'));
+              return const Center(child: Text('Error loading data'));
             } else {
               // If the Future completed successfully, build your widget tree
               return (pollsAndResults.isNotEmpty)
@@ -224,7 +214,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: MediaQuery.of(context).size.height * 0.6,
                               child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: pollsAndResults.length,
                                   itemBuilder: (context, index) {
                                     return Column(
@@ -249,7 +239,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           winPercentage:
                                               winnerPercentageCalculator(index),
                                           isPollCreator: pollsAndResults[index]
-                                              .isPollCreator!,
+                                              .isPollCreator,
                                           winnerVotesCount:
                                               winnerVoteCounter(index),
                                           isNoVotes: isNoVotes(index),

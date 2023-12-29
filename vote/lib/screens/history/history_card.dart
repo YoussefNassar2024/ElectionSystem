@@ -3,8 +3,6 @@ import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/models/poll_history.dart';
-import 'package:vote/models/poll_model.dart';
-import 'package:vote/models/results_model.dart';
 import 'package:vote/screens/history/history_poll_code_screen.dart';
 import 'package:vote/screens/history/poll_details_screen.dart';
 import 'package:vote/style/style.dart';
@@ -57,7 +55,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width * 0.03),
                 child: Text(
-                  "${widget.pollName}",
+                  widget.pollName,
                   style: TextStyle(
                       color: CustomStyle.colorPalette.white,
                       fontFamily: CustomStyle.boldFont,
@@ -65,14 +63,14 @@ class _HistoryCardState extends State<HistoryCard> {
                 ),
               ),
               Text(
-                "${widget.date}",
+                widget.date,
                 style: TextStyle(
                     color: CustomStyle.colorPalette.white,
                     fontFamily: CustomStyle.boldFont,
                     fontSize: CustomStyle.fontSizes.mediumFont),
               ),
               (widget.isNoVotes)
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * 0.01,
@@ -83,7 +81,7 @@ class _HistoryCardState extends State<HistoryCard> {
                             radius: 30,
                             child: (widget.isDraw)
                                 ? Image.asset("assets/images/draw.jpg")
-                                : Image.network("${widget.winnerphotoUrl}")),
+                                : Image.network(widget.winnerphotoUrl)),
                       ),
                     )
             ],
@@ -108,7 +106,7 @@ class _HistoryCardState extends State<HistoryCard> {
             ),
           ),
           (widget.isNoVotes || widget.isDraw)
-              ? SizedBox()
+              ? const SizedBox()
               : Text(
                   "Congratulations!!",
                   style: TextStyle(

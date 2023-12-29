@@ -61,8 +61,8 @@ class HomeScreen extends StatelessWidget {
                 context: context,
                 onPressed: () {
                   //TODO: add navigation to history screen
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => HistoryScreen()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const HistoryScreen()));
                 },
                 childText: "Show history",
                 height: MediaQuery.of(context).size.height * 0.09,
@@ -137,8 +137,6 @@ class HomeScreen extends StatelessWidget {
                             if (!hasUserVoted!) {
                               //TODO: check if poll is not expired
                               Timestamp myTimestamp = Timestamp.now();
-                              print(isTimestampExpired(myTimestamp,
-                                  timestampToDuration(poll.pollExpiryDate)));
 
                               if (!isTimestampExpired(myTimestamp,
                                   timestampToDuration(poll.pollExpiryDate))) {

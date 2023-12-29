@@ -52,7 +52,7 @@ class _CandidateCardState extends State<CandidateCard> {
                 child: Column(
                   children: [
                     Text(
-                      "${widget.candidateName}",
+                      widget.candidateName,
                       style: TextStyle(
                           fontFamily: CustomStyle.boldFont,
                           fontSize: CustomStyle.fontSizes.mediumFont,
@@ -78,7 +78,7 @@ class _CandidateCardState extends State<CandidateCard> {
                 child: (isExpanded)
                     ? Expanded(
                         child: Text(
-                          "${widget.candidateDescription}",
+                          widget.candidateDescription,
                           style: TextStyle(
                               fontFamily: CustomStyle.regularFont,
                               color: CustomStyle.colorPalette.white,
@@ -86,7 +86,7 @@ class _CandidateCardState extends State<CandidateCard> {
                         ),
                       )
                     : Text(
-                        "${widget.candidateDescription}",
+                        widget.candidateDescription,
                         style: TextStyle(
                             fontFamily: CustomStyle.regularFont,
                             color: CustomStyle.colorPalette.white,
@@ -116,7 +116,7 @@ class _CandidateCardState extends State<CandidateCard> {
                     }
                   },
                   childText: (isExpanded) ? "Show less" : "Show More")
-              : SizedBox(),
+              : const SizedBox(),
           customVerticalSpace(context: context)
         ],
       ),

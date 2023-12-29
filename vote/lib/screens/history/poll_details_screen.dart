@@ -66,7 +66,7 @@ class _PollDetailsScreenState extends State<PollDetailsScreen> {
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
-          physics: ScrollPhysics(),
+          physics: const ScrollPhysics(),
           child: Column(
             children: [
               const SizedBox(
@@ -98,7 +98,7 @@ class _PollDetailsScreenState extends State<PollDetailsScreen> {
                     child: (widget.isDarw)
                         ? Image.asset("assets/images/draw.jpg")
                         : Image.network(
-                            "${widget.winnerPhoto}",
+                            widget.winnerPhoto,
                             fit: BoxFit.contain,
                           )),
               ),
@@ -113,7 +113,7 @@ class _PollDetailsScreenState extends State<PollDetailsScreen> {
                       ? "Admin did not approve votes yet."
                       : (widget.isDarw)
                           ? "This poll is ended in draw, the result can be changed later, so stay tuned"
-                          : "Winner by ${widget.winPercentage}% of votations ${widget.winnerVotesCount} persons votes for Ahmed Mohamed from ${widget.totalNumberOfVotes} persons",
+                          : "Winner by ${widget.winPercentage}% of votations ${widget.winnerVotesCount} persons votes for ${widget.winnerName} from ${widget.totalNumberOfVotes} persons",
                   style: (!widget.isDarw)
                       ? TextStyle(
                           color: CustomStyle.colorPalette.green,
@@ -129,89 +129,92 @@ class _PollDetailsScreenState extends State<PollDetailsScreen> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     reverse: true,
                     shrinkWrap: true,
                     itemCount: widget.pollDetails.poll!.candidates.length,
                     itemBuilder: (context, index) {
-                      return (widget.pollDetails.poll!.candidates[index].Id ==
-                              widget.winnerId)
-                          ? const SizedBox()
-                          : Column(
+                      return Column(
+                        children: [
+                          AutoSizeContainer(
+                              child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
                               children: [
-                                AutoSizeContainer(
-                                    child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Flexible(
-                                              child: Text(
-                                                (widget.noApprovedVotes)
-                                                    ? "There are no votes approved"
-                                                    : "${widget.pollDetails.poll!.candidates[index].name} got only ${getCandidatePercentage(widget.pollDetails.poll!.candidates[index].Id)}% of votations",
-                                                style: TextStyle(
-                                                    fontFamily:
-                                                        CustomStyle.boldFont,
-                                                    fontSize: CustomStyle
-                                                        .fontSizes.mediumFont,
-                                                    color: CustomStyle
-                                                        .colorPalette.white),
-                                              ),
-                                            ),
-                                          ),
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            child: CircleAvatar(
-                                                radius: 30,
-                                                child: Image.network(
-                                                    "${widget.pollDetails.poll!.candidates[index].photo}")),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Expanded(
-                                        child: Flexible(
-                                          child: Text(
-                                            "${getNumberOfVotesForCandidate(widget.pollDetails.poll!.candidates[index].Id)} persons only voted for ${widget.pollDetails.poll!.candidates[index].name} from ${widget.totalNumberOfVotes}",
-                                            style: TextStyle(
-                                                fontFamily:
-                                                    CustomStyle.boldFont,
-                                                fontSize: CustomStyle
-                                                    .fontSizes.mediumFont,
-                                                color: CustomStyle
-                                                    .colorPalette.white),
-                                          ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Flexible(
+                                        child: Text(
+                                          (widget.noApprovedVotes)
+                                              ? "There are no votes approved"
+                                              : "${widget.pollDetails.poll!.candidates[index].name} got only ${getCandidatePercentage(widget.pollDetails.poll!.candidates[index].Id)}% of votations",
+                                          style: TextStyle(
+                                              fontFamily: CustomStyle.boldFont,
+                                              fontSize: CustomStyle
+                                                  .fontSizes.mediumFont,
+                                              color: CustomStyle
+                                                  .colorPalette.white),
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      (widget.isDarw)
-                                          ? SizedBox()
-                                          : Text(
-                                              "Hard Luck!!",
-                                              style: TextStyle(
-                                                  color: CustomStyle
-                                                      .colorPalette.red,
-                                                  fontFamily:
-                                                      CustomStyle.boldFont,
-                                                  fontSize: CustomStyle
-                                                      .fontSizes.subMediumFont),
-                                            )
-                                    ],
+                                    ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(30),
+                                      child: CircleAvatar(
+                                          radius: 30,
+                                          child: Image.network(widget
+                                              .pollDetails
+                                              .poll!
+                                              .candidates[index]
+                                              .photo)),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Expanded(
+                                  child: Flexible(
+                                    child: Text(
+                                      "${getNumberOfVotesForCandidate(widget.pollDetails.poll!.candidates[index].Id)} persons only voted for ${widget.pollDetails.poll!.candidates[index].name} from ${widget.totalNumberOfVotes}",
+                                      style: TextStyle(
+                                          fontFamily: CustomStyle.boldFont,
+                                          fontSize:
+                                              CustomStyle.fontSizes.mediumFont,
+                                          color:
+                                              CustomStyle.colorPalette.white),
+                                    ),
                                   ),
-                                )),
-                                customVerticalSpace(context: context)
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                (widget.isDarw)
+                                    ? const SizedBox()
+                                    : Text(
+                                        (widget.pollDetails.poll!
+                                                    .candidates[index].Id ==
+                                                widget.winnerId)
+                                            ? "Congratulations!!"
+                                            : "Hard Luck!!",
+                                        style: TextStyle(
+                                            color: (widget.pollDetails.poll!
+                                                        .candidates[index].Id ==
+                                                    widget.winnerId)
+                                                ? CustomStyle.colorPalette.green
+                                                : CustomStyle.colorPalette.red,
+                                            fontFamily: CustomStyle.boldFont,
+                                            fontSize: CustomStyle
+                                                .fontSizes.subMediumFont),
+                                      )
                               ],
-                            );
+                            ),
+                          )),
+                          customVerticalSpace(context: context)
+                        ],
+                      );
                     }),
               ),
               (widget.isCreator)

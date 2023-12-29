@@ -11,9 +11,6 @@ import 'package:vote/screens/create_poll/add_required_data_screen.dart';
 import 'package:vote/screens/create_poll/candidate_card.dart';
 import 'package:vote/style/style.dart';
 
-// Calculate timestamp based on the user's age
-// int timestamp = DateTime.now().subtract(Duration(days: age * 365)).millisecondsSinceEpoch;
-
 class AddCandidatesScreen extends StatefulWidget {
   final String pollName;
 
@@ -75,7 +72,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                       if (selectedImages.length == numOfCandidates) {
                         selectedImages.removeLast();
                         await _pickImages();
-                        print(selectedImages);
                         updatePhoto(
                             nameControllers[nameControllers.length - 1],
                             ageControllers[ageControllers.length - 1],
@@ -84,7 +80,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                         setState(() {});
                       } else {
                         await _pickImages();
-                        print(selectedImages);
                         updatePhoto(
                             nameControllers[nameControllers.length - 1],
                             ageControllers[ageControllers.length - 1],
@@ -106,7 +101,7 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                               selectedImages.last,
                               fit: BoxFit.cover,
                             )
-                          : Center(
+                          : const Center(
                               child: Text("Select photo"),
                             ),
                     )),
@@ -161,8 +156,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                     customButton(
                         context: context,
                         onPressed: () {
-                          print(nameControllers.length);
-
                           setState(() {
                             candidatesEditingWidget
                                 .removeAt(candidatesEditingWidget.length - 1);
@@ -180,9 +173,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                               isCandidatesEmpty = true;
                             }
                             isAddingCandidates = false;
-
-                            print(nameControllers);
-                            print(nameControllers.length);
                           });
                         },
                         childText: "Delete",
@@ -192,8 +182,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                     customButton(
                         context: context,
                         onPressed: () {
-                          //TODO: add save function
-                          print("This is candidates ID:$candidateId");
                           bool isNameNull = false;
                           if (nameControllers[nameControllers.length - 1]
                                       .text
@@ -277,8 +265,10 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                                             nameControllers.length - 1]
                                         .text
                                         .trim(),
-                                    candidateAge:
-                                        "${ageControllers[ageControllers.length - 1].text.trim()}",
+                                    candidateAge: ageControllers[
+                                            ageControllers.length - 1]
+                                        .text
+                                        .trim(),
                                     candidateDescription:
                                         descriptionControllers[
                                                 descriptionControllers.length -
@@ -358,7 +348,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                           if (selectedImages.length == numOfCandidates) {
                             selectedImages.removeLast();
                             await _pickImages();
-                            print(selectedImages);
                             updatePhoto(
                                 nameControllers[nameControllers.length - 1],
                                 ageControllers[ageControllers.length - 1],
@@ -367,7 +356,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                             setState(() {});
                           } else {
                             await _pickImages();
-                            print(selectedImages);
                             updatePhoto(
                                 nameControllers[nameControllers.length - 1],
                                 ageControllers[ageControllers.length - 1],
@@ -389,7 +377,7 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                                   selectedImages.last,
                                   fit: BoxFit.cover,
                                 )
-                              : Center(
+                              : const Center(
                                   child: Text("Select photo"),
                                 ),
                         )),
@@ -447,8 +435,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                         customButton(
                             context: context,
                             onPressed: () {
-                              print(nameControllers.length);
-
                               setState(() {
                                 candidatesEditingWidget.removeAt(
                                     candidatesEditingWidget.length - 1);
@@ -468,9 +454,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                                   isCandidatesEmpty = true;
                                 }
                                 isAddingCandidates = false;
-
-                                print(nameControllers);
-                                print(nameControllers.length);
                               });
                             },
                             childText: "Delete",
@@ -480,9 +463,6 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                         customButton(
                             context: context,
                             onPressed: () {
-                              //TODO: add save function
-                              print(selectedImages.length);
-                              print(selectedImages);
                               bool isNameNull = false;
                               if (nameControllers[nameControllers.length - 1]
                                           .text
@@ -605,12 +585,12 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
                           ? Column(
                               children: candidatesCards,
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       (candidatesCards.isNotEmpty)
                           ? customVerticalSpace(
                               context: context,
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       (isCandidatesEmpty)
                           ? Container(
                               width: MediaQuery.of(context).size.width * 0.9,
@@ -687,12 +667,12 @@ class _AddCandidatesScreenState extends State<AddCandidatesScreen> {
               addCandidate();
             }
           },
+          backgroundColor: CustomStyle.colorPalette.purple,
           child: Icon(
             Icons.add,
             color: CustomStyle.colorPalette.white,
             size: 40,
           ),
-          backgroundColor: CustomStyle.colorPalette.purple,
         ),
       ),
     );

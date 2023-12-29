@@ -97,7 +97,7 @@ class _HistoryPollCodeScreenState extends State<HistoryPollCodeScreen> {
                   child: (widget.isDarw)
                       ? Image.asset("assets/images/draw.jpg")
                       : Image.network(
-                          "${widget.winnerPhoto}",
+                          widget.winnerPhoto,
                           fit: BoxFit.contain,
                         )),
             ),
@@ -112,7 +112,7 @@ class _HistoryPollCodeScreenState extends State<HistoryPollCodeScreen> {
                     ? "Admin did not approve votes yet."
                     : (widget.isDarw)
                         ? "This poll is ended in draw, the result can be changed later, so stay tuned"
-                        : "Winner by ${widget.winPercentage}% of votations ${widget.winnerVotesCount} persons votes for Ahmed Mohamed from ${widget.totalNumberOfVotes} persons",
+                        : "Winner by ${widget.winPercentage}% of votations ${widget.winnerVotesCount} persons votes for ${widget.winnerName} from ${widget.totalNumberOfVotes} persons",
                 style: (!widget.isDarw)
                     ? TextStyle(
                         color: CustomStyle.colorPalette.green,

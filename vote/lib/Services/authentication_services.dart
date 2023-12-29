@@ -37,7 +37,6 @@ class FireBaseAuthenticationServices {
 
       return user;
     } catch (error) {
-      print("Error signing in with Google: $error");
       return null;
     }
   }
@@ -56,7 +55,6 @@ class FireBaseAuthenticationServices {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       showSnackBar("Password reset email has been sent !", context);
     } on FirebaseAuthException catch (e) {
-      print(e);
       showSnackBar(e.message.toString(), context);
     }
   }
