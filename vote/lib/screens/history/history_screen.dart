@@ -205,63 +205,86 @@ class _HistoryScreenState extends State<HistoryScreen> {
               return Center(child: Text('Error loading data'));
             } else {
               // If the Future completed successfully, build your widget tree
-              return SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: SingleChildScrollView(
-                  reverse: true,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      customVerticalSpace(context: context),
-                      Center(child: Image.asset("assets/images/history.png")),
-                      customVerticalSpace(context: context),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.6,
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: pollsAndResults.length,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  HistoryCard(
-                                    winnerId: getCandidateFromId(index)!.Id,
-                                    totalNumberOfVotes:
-                                        calculateTotalNumberOfVotes(index),
-                                    pollName:
-                                        pollsAndResults[index].poll!.title,
-                                    date: convertTimeStampToString(
-                                        pollsAndResults[index]
-                                            .poll!
-                                            .pollExpiryDate),
-                                    winnerphotoUrl:
-                                        getCandidateFromId(index)!.photo,
-                                    winnerName: getCandidateFromId(index)!.name,
-                                    winPercentage:
-                                        winnerPercentageCalculator(index),
-                                    isPollCreator:
-                                        pollsAndResults[index].isPollCreator!,
-                                    winnerVotesCount: winnerVoteCounter(index),
-                                    isNoVotes: isNoVotes(index),
-                                    isDraw:
-                                        isDraw(pollsAndResults[index].results!),
-                                    isExpired: isTimestampExpired(
-                                        myTimestamp,
-                                        timestampToDuration(
-                                            pollsAndResults[index]
-                                                .poll!
-                                                .pollExpiryDate)),
-                                    pollDetails: pollsAndResults[index],
-                                  ),
-                                  customVerticalSpace(context: context)
-                                ],
-                              );
-                            }),
-                      )
-                    ],
-                  ),
-                ),
-              );
+              return (pollsAndResults.isNotEmpty)
+                  ? SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: SingleChildScrollView(
+                        reverse: true,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            customVerticalSpace(context: context),
+                            Center(
+                                child:
+                                    Image.asset("assets/images/history.png")),
+                            customVerticalSpace(context: context),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.6,
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: pollsAndResults.length,
+                                  itemBuilder: (context, index) {
+                                    return Column(
+                                      children: [
+                                        HistoryCard(
+                                          winnerId:
+                                              getCandidateFromId(index)!.Id,
+                                          totalNumberOfVotes:
+                                              calculateTotalNumberOfVotes(
+                                                  index),
+                                          pollName: pollsAndResults[index]
+                                              .poll!
+                                              .title,
+                                          date: convertTimeStampToString(
+                                              pollsAndResults[index]
+                                                  .poll!
+                                                  .pollExpiryDate),
+                                          winnerphotoUrl:
+                                              getCandidateFromId(index)!.photo,
+                                          winnerName:
+                                              getCandidateFromId(index)!.name,
+                                          winPercentage:
+                                              winnerPercentageCalculator(index),
+                                          isPollCreator: pollsAndResults[index]
+                                              .isPollCreator!,
+                                          winnerVotesCount:
+                                              winnerVoteCounter(index),
+                                          isNoVotes: isNoVotes(index),
+                                          isDraw: isDraw(
+                                              pollsAndResults[index].results!),
+                                          isExpired: isTimestampExpired(
+                                              myTimestamp,
+                                              timestampToDuration(
+                                                  pollsAndResults[index]
+                                                      .poll!
+                                                      .pollExpiryDate)),
+                                          pollDetails: pollsAndResults[index],
+                                        ),
+                                        customVerticalSpace(context: context)
+                                      ],
+                                    );
+                                  }),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
+                  : Center(
+                      child: Column(
+                        children: [
+                          Image.asset("assets/images/no_history.jpg",
+                              width: MediaQuery.of(context).size.width * 0.8),
+                          Text(
+                            "There is no recent activity",
+                            style: TextStyle(
+                                color: CustomStyle.colorPalette.darkPurple,
+                                fontFamily: CustomStyle.boldFont,
+                                fontSize: CustomStyle.fontSizes.largeFont),
+                          )
+                        ],
+                      ),
+                    );
             }
           }),
     );
