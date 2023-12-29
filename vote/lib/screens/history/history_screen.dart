@@ -164,6 +164,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return (biggestNumber / totalNumberOfVotes) * 100;
   }
 
+  int winnerVoteCounter(int index) {
+    int biggestNumber = pollsAndResults[index]
+        .results!
+        .candidateResults
+        .map((result) =>
+            result.values.last) // Get the last value from each candidateResult
+        .reduce((max, current) => max > current ? max : current);
+    return biggestNumber;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -174,10 +184,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //TODO: add back arrow
+        //TODO: fix back arrow
         title: Center(
             child: Text(
-          "Your Poll History",
+          "Your Polls History",
           style: TextStyle(
               color: CustomStyle.colorPalette.white,
               fontFamily: CustomStyle.boldFont),
@@ -205,7 +215,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       customVerticalSpace(context: context),
                       Center(child: Image.asset("assets/images/history.png")),
                       customVerticalSpace(context: context),
-                      //TODO: add code to read history and show cards
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.6,
                         child: ListView.builder(
@@ -216,18 +225,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               return Column(
                                 children: [
                                   HistoryCard(
+                                    winnerId: getCandidateFromId(index)!.Id,
+                                    totalNumberOfVotes:
+                                        calculateTotalNumberOfVotes(index),
                                     pollName:
                                         pollsAndResults[index].poll!.title,
                                     date: convertTimeStampToString(
                                         pollsAndResults[index]
                                             .poll!
                                             .pollExpiryDate),
-                                    photoUrl: getCandidateFromId(index)!.photo,
+                                    winnerphotoUrl:
+                                        getCandidateFromId(index)!.photo,
                                     winnerName: getCandidateFromId(index)!.name,
                                     winPercentage:
                                         winnerPercentageCalculator(index),
                                     isPollCreator:
                                         pollsAndResults[index].isPollCreator!,
+                                    winnerVotesCount: winnerVoteCounter(index),
                                     isNoVotes: isNoVotes(index),
                                     isDraw:
                                         isDraw(pollsAndResults[index].results!),
@@ -237,6 +251,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                             pollsAndResults[index]
                                                 .poll!
                                                 .pollExpiryDate)),
+                                    pollDetails: pollsAndResults[index],
                                   ),
                                   customVerticalSpace(context: context)
                                 ],

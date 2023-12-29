@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
+import 'package:vote/models/poll_history.dart';
+import 'package:vote/models/poll_model.dart';
+import 'package:vote/models/results_model.dart';
+import 'package:vote/screens/history/poll_details_screen.dart';
 import 'package:vote/style/style.dart';
 
 //TODO: make it read a list of data
@@ -10,25 +14,33 @@ class HistoryCard extends StatefulWidget {
       {super.key,
       required this.pollName,
       required this.date,
-      required this.photoUrl,
+      required this.winnerphotoUrl,
       required this.winnerName,
       required this.winPercentage,
       required this.isPollCreator,
       required this.isNoVotes,
       required this.isDraw,
-      required this.isExpired});
+      required this.isExpired,
+      required this.totalNumberOfVotes,
+      required this.winnerVotesCount,
+      required this.pollDetails,
+      required this.winnerId});
 
   @override
   _HistoryCardState createState() => _HistoryCardState();
   final String pollName;
   final String date;
-  final String photoUrl;
+  final String winnerphotoUrl;
   final String winnerName;
   final double winPercentage;
   final bool isPollCreator;
+  final String winnerId;
   final bool isNoVotes;
   final bool isDraw;
+  final int totalNumberOfVotes;
   final bool isExpired;
+  final int winnerVotesCount;
+  final PollHistoryItem pollDetails;
 }
 
 class _HistoryCardState extends State<HistoryCard> {
@@ -70,7 +82,7 @@ class _HistoryCardState extends State<HistoryCard> {
                             radius: 30,
                             child: (widget.isDraw)
                                 ? Image.asset("assets/images/draw.jpg")
-                                : Image.network("${widget.photoUrl}")),
+                                : Image.network("${widget.winnerphotoUrl}")),
                       ),
                     )
             ],
@@ -109,7 +121,21 @@ class _HistoryCardState extends State<HistoryCard> {
               height: MediaQuery.of(context).size.height * 0.05,
               context: context,
               onPressed: () {
-                //TODO: add function
+                //TODO: if condition if poll expired or not
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PollDetailsScreen(
+                          pollDetails: widget.pollDetails,
+                          winPercentage: widget.winPercentage.toString(),
+                          winnerPhoto: widget.winnerphotoUrl,
+                          isDarw: widget.isDraw,
+                          winnerName: widget.winnerName,
+                          isExpired: widget.isExpired,
+                          totalNumberOfVotes: widget.totalNumberOfVotes,
+                          isCreator: widget.isPollCreator,
+                          winnerVotesCount: widget.winnerVotesCount,
+                          winnerId: widget.winnerId,
+                          noApprovedVotes: widget.isNoVotes,
+                        )));
               },
               childText: "Show more details",
               color: CustomStyle.colorPalette.lightPurple),
