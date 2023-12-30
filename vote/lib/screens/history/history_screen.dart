@@ -214,7 +214,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               height: MediaQuery.of(context).size.height * 0.6,
                               child: ListView.builder(
                                   shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
                                   itemCount: pollsAndResults.length,
                                   itemBuilder: (context, index) {
                                     return Column(

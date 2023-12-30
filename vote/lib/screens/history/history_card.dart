@@ -91,7 +91,7 @@ class _HistoryCardState extends State<HistoryCard> {
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
             child: Text(
               (widget.isNoVotes && widget.isPollCreator)
-                  ? "Please Aprrove votes to see results"
+                  ? "Please Approve votes to see results"
                   : (widget.isNoVotes && !widget.isPollCreator)
                       ? "There is no Approved votes"
                       : (widget.isDraw)
