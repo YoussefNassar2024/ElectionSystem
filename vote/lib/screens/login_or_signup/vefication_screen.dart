@@ -27,9 +27,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
     isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
     if (!isEmailVerified) {
       sendVerificationEmail();
-      timer = Timer.periodic(Duration(seconds: 1), (_) => updateTimer());
+      timer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimer());
     }
-    Timer.periodic(Duration(seconds: 5), (_) {
+    Timer.periodic(const Duration(seconds: 5), (_) {
       checkEmailVerified();
     });
     updateTimer();
@@ -47,7 +47,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       }
       for (int i = 0; i < 60; i++) {
         // Delay for 1 second
-        await Future.delayed(Duration(seconds: 1));
+        await Future.delayed(const Duration(seconds: 1));
       }
       if (mounted) {
         setState(() {
@@ -55,7 +55,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           buttonColor = CustomStyle.colorPalette.purple;
         });
       }
-    } on Exception catch (e) {
+    } on Exception {
       showSnackBar(
           "You have reached the limit, please try again later", context);
     }
@@ -133,9 +133,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
               fontFamily: CustomStyle.boldFont,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.only(bottom: 10.0),
+            padding: const EdgeInsets.only(bottom: 10.0),
             child: customButton(
                 context: context,
                 borderRadius: 5,
@@ -150,14 +150,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         buttonColor = CustomStyle.colorPalette.lightPurple;
                         remainingSeconds = 30;
                         timer = Timer.periodic(
-                            Duration(seconds: 1), (_) => updateTimer());
+                            const Duration(seconds: 1), (_) => updateTimer());
                       });
                     }
                   }
                 },
                 childText: (canResendEmail)
                     ? "Send Verification Email"
-                    : "Please wait ${remainingSeconds}"),
+                    : "Please wait $remainingSeconds"),
           ),
         ],
       ),

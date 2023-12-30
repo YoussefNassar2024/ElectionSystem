@@ -5,7 +5,7 @@ class AutoSizeContainer extends StatelessWidget {
   final Widget child;
   Color? color;
   double? width;
-  AutoSizeContainer({required this.child, this.color, this.width});
+  AutoSizeContainer({super.key, required this.child, this.color, this.width});
 
   @override
   Widget build(BuildContext context) {

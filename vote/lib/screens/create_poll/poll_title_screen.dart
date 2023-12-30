@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
@@ -9,6 +8,8 @@ import 'package:vote/style/style.dart';
 
 class PollTitleScreen extends StatelessWidget {
   TextEditingController pollNameController = TextEditingController();
+
+  PollTitleScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,8 +71,7 @@ class PollTitleScreen extends StatelessWidget {
             color: CustomStyle.colorPalette.lightPurple,
             onPressed: () {
               //TODO: add function
-              if (pollNameController.text.trim() == null ||
-                  pollNameController.text.trim().isEmpty ||
+              if (pollNameController.text.trim().isEmpty ||
                   pollNameController.text.trim() == '') {
                 showSnackBar("Please enter poll name", context);
               } else {

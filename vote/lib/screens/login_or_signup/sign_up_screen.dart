@@ -159,7 +159,7 @@ class _SignUnScreenState extends State<SignUnScreen> {
                     onPressed: () {
                       //TODO: Navigate to log in
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignInScreen()));
+                          builder: (context) => const SignInScreen()));
                     },
                     child: Text(
                       "already have an account?",
@@ -185,7 +185,7 @@ class _SignUnScreenState extends State<SignUnScreen> {
                     FireBaseAuthenticationServices.signUp(
                         email, password, context);
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => VerificationScreen()));
+                        builder: (context) => const VerificationScreen()));
                   }
                 },
                 childText: "Create an Email"),

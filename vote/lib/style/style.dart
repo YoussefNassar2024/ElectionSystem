@@ -11,12 +11,12 @@ class CustomStyle {
 }
 
 class _ColorPalette {
-  Color purple = Color(0xFF455EEF);
-  Color lightPurple = Color(0xFFAEC3F7);
-  Color darkPurple = Color(0xFF040032);
-  Color green = Color(0xFF11D861);
-  Color white = Color(0xFFFFFFFF);
-  Color red = Color(0xFFD51818);
+  Color purple = const Color(0xFF455EEF);
+  Color lightPurple = const Color(0xFFAEC3F7);
+  Color darkPurple = const Color(0xFF040032);
+  Color green = const Color(0xFF11D861);
+  Color white = const Color(0xFFFFFFFF);
+  Color red = const Color(0xFFD51818);
 }
 
 class _FontSizes {

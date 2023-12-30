@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
@@ -100,9 +99,6 @@ class _AddRequiredDataState extends State<AddRequiredData> {
       inputTypes.removeAt(inputTypes.length - 1);
       dataFromUser.removeLast();
     });
-    print(dataNameController.length);
-    print(rowsOfData.length);
-    print(inputTypes.length);
   }
 
   @override
@@ -133,6 +129,12 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                         children: [
                           customVerticalSpace(context: context),
                           Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: CustomStyle.colorPalette.lightPurple,
+                            ),
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: MediaQuery.of(context).size.height * 0.13,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
@@ -143,12 +145,6 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                                 ),
                               ),
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: CustomStyle.colorPalette.lightPurple,
-                            ),
-                            width: MediaQuery.of(context).size.width * 0.9,
-                            height: MediaQuery.of(context).size.height * 0.13,
                           ),
                           customVerticalSpace(context: context),
                           Column(
@@ -238,6 +234,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                             top: MediaQuery.of(context).size.height * 0.73,
                             left: MediaQuery.of(context).size.width * 0.034),
                         child: FloatingActionButton(
+                          heroTag: UniqueKey(),
                           onPressed: () async {
                             if (dataNameController.isNotEmpty ||
                                 rowsOfData.isNotEmpty ||
@@ -252,8 +249,8 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                             }
                           },
                           backgroundColor: CustomStyle.colorPalette.purple,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 5.0),
+                          child: const Padding(
+                            padding: EdgeInsets.only(top: 5.0),
                             child: Icon(
                               Icons.remove,
                               size: 50,
@@ -268,7 +265,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: customButton(
                 context: context,
                 onPressed: () {
@@ -278,11 +275,9 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                   bool mainInputTypesNotInList = true;
                   for (var element in dataNameController) {
                     if (element.text.trim().isEmpty ||
-                        element.text.trim() == null ||
                         element.text.trim() == "") {
                       noEmptyTextFieldsInList = false;
                       showSnackBar("Please fill empty Data names", context);
-                      print("empty");
                     } else {
                       noEmptyTextFieldsInList = true;
                     }
@@ -291,25 +286,20 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                     if (element == "Choose input") {
                       noEmptyInputTypesInList = false;
                       showSnackBar("Please fill empty Input types", context);
-                      print("empty");
                     } else {
                       noEmptyInputTypesInList = true;
-                      print("####################################not empty");
                     }
                   }
                   if (mainController.text.trim().isEmpty ||
-                      mainController.text.trim() == null ||
                       mainController.text.trim() == "") {
                     mainTextFieldsNotInList = false;
                     showSnackBar("Please fill empty Data names", context);
-                    print("empty");
                   } else {
                     mainTextFieldsNotInList = true;
                   }
                   if (mainInputType == "Choose input") {
                     mainInputTypesNotInList = false;
                     showSnackBar("Please fill empty Input types", context);
-                    print("empty");
                   } else {
                     mainInputTypesNotInList = true;
                   }
@@ -317,15 +307,14 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                       noEmptyTextFieldsInList &&
                       mainInputTypesNotInList &&
                       mainTextFieldsNotInList) {
-                    //TODO: add next function and add all inputs to the map
                     dataFromUser.add({
-                      'data name': "${mainController.text.trim()}",
-                      'data type': '${mainInputType}'
+                      'data name': mainController.text.trim(),
+                      'data type': mainInputType
                     });
                     for (var i = 0; i < inputTypes.length; i++) {
                       dataFromUser.add({
-                        "data name": '${dataNameController[i].text.trim()}',
-                        "data type": '${inputTypes[i]}'
+                        "data name": dataNameController[i].text.trim(),
+                        "data type": inputTypes[i]
                       });
                     }
                     Navigator.of(context).push(MaterialPageRoute(
@@ -335,7 +324,6 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                               candidates: widget.candidates,
                               dataFromUser: dataFromUser,
                             )));
-                    print(dataFromUser);
                   }
                 },
                 childText: "Done",
@@ -356,15 +344,16 @@ class _AddRequiredDataState extends State<AddRequiredData> {
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
         child: FloatingActionButton(
+          heroTag: UniqueKey(),
           onPressed: () {
             addDataRow(rowsOfData.length);
           },
+          backgroundColor: CustomStyle.colorPalette.purple,
           child: Icon(
             Icons.add,
             color: CustomStyle.colorPalette.white,
             size: 40,
           ),
-          backgroundColor: CustomStyle.colorPalette.purple,
         ),
       ),
     );
@@ -466,10 +455,7 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                             mainInputType = "Text";
                           }
                         });
-                        Navigator.of(context).pop();
-
-                        print(mainInputType);
-                        print(inputTypes);
+                        Navigator.of(dialogContext, rootNavigator: true).pop();
                       },
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.5,
@@ -562,9 +548,6 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                           }
                         });
                         Navigator.of(context).pop();
-                        print(mainInputType);
-
-                        print(inputTypes);
                       },
                       childText: "Number"),
                   customVerticalSpace(
@@ -655,9 +638,6 @@ class _AddRequiredDataState extends State<AddRequiredData> {
                           }
                         });
                         Navigator.of(context).pop();
-                        print(mainInputType);
-
-                        print(inputTypes);
                       },
                       childText: "Image")
                 ],

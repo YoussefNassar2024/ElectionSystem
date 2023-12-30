@@ -53,7 +53,7 @@ Widget customButton(
                             : textStyle,
                         children: [
                           TextSpan(
-                            text: "$childText",
+                            text: childText,
                           ),
                           WidgetSpan(child: icon ?? image!),
                         ],

@@ -14,14 +14,14 @@ void main() async {
     androidProvider: AndroidProvider.debug,
     appleProvider: AppleProvider.appAttest,
   );
-
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
         home: Directionality(
             textDirection: TextDirection.ltr, child: LoginStreamer()));
   }

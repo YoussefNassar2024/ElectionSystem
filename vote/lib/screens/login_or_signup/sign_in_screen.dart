@@ -47,7 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Center(
               child: Image.asset(
                 "assets/images/loginScreen.png",
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.5,
               ),
             ),
             Row(
@@ -80,7 +80,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: () {
                       //TODO: add reset password
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: ((context) => PasswordResetScreen())));
+                          builder: ((context) => const PasswordResetScreen())));
                     },
                     child: Text(
                       "reset password?",
@@ -173,7 +173,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: () {
                       //TODO: Navigate to sign up
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => SignUnScreen()));
+                          builder: (context) => const SignUnScreen()));
                     },
                     child: Text(
                       "Sign up now!",
@@ -223,7 +223,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           // Email not verified, navigate to the verification screen
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => VerificationScreen(),
+                              builder: (context) => const VerificationScreen(),
                             ),
                           );
                         }
@@ -241,16 +241,15 @@ class _SignInScreenState extends State<SignInScreen> {
                           // and navigate to the verification screen
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => VerificationScreen(),
+                              builder: (context) => const VerificationScreen(),
                             ),
                           );
                         } catch (signUpError) {
                           // Handle sign-up errors
-                          print("Error signing up: $signUpError");
+
                           showSnackBar('Error signing up', context);
                         }
                       } else if (e.code == 'wrong-password') {
-                        print('Incorrect password');
                       } else if (e.code == 'invalid-email') {
                         showSnackBar('Invalid email', context);
                       }

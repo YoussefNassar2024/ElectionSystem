@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_textfield.dart';
@@ -55,8 +54,6 @@ class _FillDataScreenState extends State<FillDataScreen> {
   void prepareData() {
     Poll poll = widget.poll;
     for (var i = 0; i < poll.requiredData.length; i++) {
-      print(poll.requiredData[i].values.first);
-      print(poll.requiredData[i].values.last);
       if (poll.requiredData[i].values.last == "Text") {
         numberofRequiredTexts++;
         textEditingcontrollers.add(TextEditingController());
@@ -139,7 +136,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
                         customVerticalSpace(context: context),
                         ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: numberofRequiredTexts,
                             itemBuilder: ((context, index) {
                               return Column(
@@ -168,6 +165,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
                                         if (value == null || value.isEmpty) {
                                           return null;
                                         }
+                                        return null;
                                       },
                                       width: MediaQuery.of(context).size.width *
                                           0.8,
@@ -180,7 +178,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
                             })),
                         ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: numberofRequiredNumbers,
                             itemBuilder: ((context, index) {
                               return Column(
@@ -214,6 +212,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
                                             value.toString())) {
                                           return "Please enter the numric data";
                                         }
+                                        return null;
                                       },
                                       textEditingController:
                                           numberEditingcontrollers[index],
@@ -224,7 +223,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
                             })),
                         ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemCount: numberOfRequiredImages,
                             itemBuilder: ((context, index) {
                               return Column(
@@ -270,7 +269,7 @@ class _FillDataScreenState extends State<FillDataScreen> {
                                               selectedImages[index],
                                               fit: BoxFit.cover,
                                             )
-                                          : Center(
+                                          : const Center(
                                               child:
                                                   Text("Please select photo")),
                                     ),
@@ -325,19 +324,17 @@ class _FillDataScreenState extends State<FillDataScreen> {
               for (var i = 0; i < textEditingcontrollers.length; i++) {
                 //add users data
                 voterData.addAll({
-                  "${namesOfRequiredTexts[i]}":
-                      textEditingcontrollers[i].text.trim()
+                  namesOfRequiredTexts[i]: textEditingcontrollers[i].text.trim()
                 });
               }
               for (var i = 0; i < numberEditingcontrollers.length; i++) {
                 voterData.addAll({
-                  "${namesOfRequiredNumbers[i]}":
+                  namesOfRequiredNumbers[i]:
                       numberEditingcontrollers[i].text.trim()
                 });
               }
               for (var i = 0; i < selectedImages.length; i++) {
-                voterData
-                    .addAll({"${namesOfRequiredImages[i]}": selectedImages[i]});
+                voterData.addAll({namesOfRequiredImages[i]: selectedImages[i]});
               }
               //TODO: pass the voterdata map and poll from widget
               Navigator.of(context).push(MaterialPageRoute(

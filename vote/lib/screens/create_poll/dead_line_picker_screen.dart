@@ -12,7 +12,6 @@ import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
 import 'package:vote/models/results_model.dart';
 import 'package:vote/screens/create_poll/poll_code_screen.dart';
-import 'package:vote/screens/home_screen/home_screen.dart';
 import 'package:vote/style/style.dart';
 
 class DeadLinePickerScreen extends StatefulWidget {
@@ -86,7 +85,6 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
       }
       currentYearNow++;
     }
-    print(isLeapYear(2022));
 
     int currentYear = DateTime.now().year;
     int endWhileLoop = currentYear + 10;
@@ -94,8 +92,6 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
       years.add(currentYear.toString());
       currentYear++;
     }
-    print(years);
-    print(yearsHave29DaysInFeb);
   }
 
   @override
@@ -173,7 +169,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
               DecoratedBox(
                 decoration: ShapeDecoration(
                     color: CustomStyle.colorPalette.purple,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     )),
                 child: Padding(
@@ -194,7 +190,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                     style: TextStyle(
                         color: CustomStyle.colorPalette.white,
                         fontFamily: CustomStyle.semiBoldFont),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_drop_down,
                       color: Colors.white,
                       size: 30,
@@ -206,7 +202,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
               DecoratedBox(
                 decoration: ShapeDecoration(
                     color: CustomStyle.colorPalette.purple,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     )),
                 child: Padding(
@@ -227,7 +223,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                     style: TextStyle(
                         color: CustomStyle.colorPalette.white,
                         fontFamily: CustomStyle.semiBoldFont),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_drop_down,
                       color: Colors.white,
                       size: 30,
@@ -239,7 +235,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
               DecoratedBox(
                 decoration: ShapeDecoration(
                     color: CustomStyle.colorPalette.purple,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     )),
                 child: Padding(
@@ -260,7 +256,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                     style: TextStyle(
                         color: CustomStyle.colorPalette.white,
                         fontFamily: CustomStyle.semiBoldFont),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_drop_down,
                       color: Colors.white,
                       size: 30,
@@ -271,9 +267,9 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Padding(
-            padding: EdgeInsets.only(bottom: 15.0),
+            padding: const EdgeInsets.only(bottom: 15.0),
             child: customButton(
                 context: context,
                 color: CustomStyle.colorPalette.lightPurple,
@@ -316,10 +312,7 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                     valid = false;
                   }
                   String pollCode = generateUniqueID();
-                  print(valid);
                   if (valid) {
-                    print("Valid date. Implement navigation or other actions.");
-                    //TODO: add navigation and upload
                     try {
                       showLoadingScreen(context);
                       for (var i = 0; i < widget.candidatesPhotos.length; i++) {
@@ -342,21 +335,21 @@ class _DeadLinePickerScreenState extends State<DeadLinePickerScreen> {
                               pollFinished: false,
                               title: widget.pollName));
                       for (var i = 0; i < widget.candidates.length; i++) {
-                        resultsToBeUploaded
-                            .add({"${widget.candidates[i].Id}": 0});
+                        resultsToBeUploaded.add({widget.candidates[i].Id: 0});
                       }
                       await ResultsService.uploadResults(pollCode,
                           Results(candidateResults: resultsToBeUploaded));
                       await UserService.addCreatedPoll(pollCode);
+                      removeLoadingScreen(context);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => PollCodeScreen(
-                                pollCode: pollCode,
-                              )));
+                        builder: (context) => PollCodeScreen(
+                          pollCode: pollCode,
+                        ),
+                      ));
                     } on Exception catch (e) {
                       showSnackBar(e.toString(), context);
                     }
                   } else {
-                    print("Invalid date. Handle the case accordingly.");
                     showSnackBar("Please enter a valid date", context);
                   }
                 },
@@ -377,7 +370,6 @@ String generateUniqueID() {
   String formattedTime =
       "${_twoDigits(now.hour)}${_twoDigits(now.minute)}${_twoDigits(now.second)}";
   String uniqueID = "$formattedDate$formattedTime";
-  print(uniqueID);
   return uniqueID;
 }
 

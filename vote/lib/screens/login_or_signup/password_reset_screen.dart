@@ -54,6 +54,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                 height: MediaQuery.of(context).size.height * 0.05),
             customTextField(
                 textEditingController: _emailController,
+                maxLines: 1,
                 context: context,
                 hintText: "Enter your email",
                 height: MediaQuery.of(context).size.height * 0.02),
@@ -70,7 +71,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                   FireBaseAuthenticationServices.passwordReset(
                       _emailController.text.trim(), context);
                   Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => SignInScreen()));
+                      MaterialPageRoute(builder: (context) => const SignInScreen()));
                 } on FirebaseAuthException catch (e) {
                   String errorMessage = "Failed to send password reset email.";
                   if (e.code == 'user-not-found') {

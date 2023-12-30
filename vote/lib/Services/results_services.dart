@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vote/models/results_model.dart';
 
 class ResultsService {
-  Future<List<Map<String, dynamic>>> getAllResults(String pollId) async {
+  static Future<Results?> getResultsByPollId(String pollId) async {
     try {
       DocumentSnapshot resultsSnapshot = await FirebaseFirestore.instance
+          .collection('polls')
+          .doc(pollId)
           .collection('results')
           .doc(pollId)
           .get();
@@ -12,22 +14,26 @@ class ResultsService {
       if (resultsSnapshot.exists) {
         // Retrieve the 'candidateResults' field from the document
         List<Map<String, dynamic>> candidateResults =
-            resultsSnapshot.get('candidateResults') ?? [];
-        return candidateResults;
+            List<Map<String, dynamic>>.from(
+                resultsSnapshot.get('candidateResults') ?? [{}]);
+        return Results(candidateResults: candidateResults);
       } else {
-        return [];
+        return null;
       }
     } catch (e) {
       print("Error getting results: $e");
-      return [];
+      return null;
     }
   }
 
   static Future<void> placeVote(String pollId, int candidateIndex) async {
     try {
       // Reference to the document with the poll ID as document ID
-      DocumentReference resultsDocRef =
-          FirebaseFirestore.instance.collection('results').doc(pollId);
+      DocumentReference resultsDocRef = FirebaseFirestore.instance
+          .collection('polls')
+          .doc(pollId)
+          .collection('results')
+          .doc(pollId);
 
       // Get the current candidateResults data
       DocumentSnapshot resultsSnapshot = await resultsDocRef.get();
@@ -58,6 +64,8 @@ class ResultsService {
     try {
       // Save the poll data to Firestore
       await FirebaseFirestore.instance
+          .collection('polls')
+          .doc(docId)
           .collection('results')
           .doc(docId)
           .set(result.toJson());
