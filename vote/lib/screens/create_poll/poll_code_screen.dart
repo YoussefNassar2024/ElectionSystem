@@ -101,8 +101,11 @@ class AddCandidatesScreenState extends State<PollCodeScreen> {
             customButton(
               context: context,
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               childText: "Done",
               color: CustomStyle.colorPalette.lightPurple,

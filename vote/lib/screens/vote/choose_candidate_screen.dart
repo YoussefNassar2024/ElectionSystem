@@ -11,6 +11,7 @@ import 'package:vote/custom_components/utils.dart';
 import 'package:vote/models/poll_model.dart';
 import 'package:vote/models/vote_model.dart';
 import 'package:vote/screens/home_screen/home_screen.dart';
+import 'package:vote/screens/vote/vote_done_screen.dart';
 import 'package:vote/style/style.dart';
 
 class ChooseCandidateScreen extends StatefulWidget {
@@ -361,7 +362,7 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                               widget.poll.pollCode);
                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: ((context) => HomeScreen())));
+                                  builder: ((context) => VoteDoneScreen())));
                         } on Exception catch (e) {
                           removeLoadingScreen(context);
                           showSnackBar(e.toString(), context);
