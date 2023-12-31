@@ -55,7 +55,7 @@ class _WaitingScreenState extends State<WaitingScreen>
       body: Center(
         child: Opacity(
             opacity: fadingAnimation?.value,
-            child: Image.asset("assets/images/logo.jpg")),
+            child: Image.asset("assets/images/logo.png")),
       ),
     );
   }
