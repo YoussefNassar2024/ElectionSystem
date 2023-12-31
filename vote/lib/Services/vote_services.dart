@@ -23,7 +23,6 @@ class VoteService {
 
       return querySnapshot.docs.isNotEmpty;
     } on Exception {
-      // TODO
       return null;
     }
   }
@@ -42,11 +41,6 @@ class VoteService {
   }
 
   static Future<void> approveVote(Vote vote, String pollId) async {
-    // Perform the database update operation here
-    // This is where you'll update the 'isApproved' property to true
-    // The implementation depends on your specific database handling
-
-    // For example, if you're using Firebase Firestore:
     await FirebaseFirestore.instance
         .collection('polls')
         .doc(pollId)
@@ -56,10 +50,6 @@ class VoteService {
   }
 
   static Future<void> deleteVote(String voterId, String pollId) async {
-    // Perform the database delete operation here
-    // This is where you'll delete the document with the given 'voterId'
-
-    // For example, if you're using Firebase Firestore:
     await FirebaseFirestore.instance
         .collection('polls')
         .doc(pollId)
@@ -67,5 +57,4 @@ class VoteService {
         .doc(voterId)
         .delete();
   }
-  // Additional methods for updating votes, checking vote status, etc...
 }

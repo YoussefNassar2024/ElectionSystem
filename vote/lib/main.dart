@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vote/firebase_options.dart';
 import 'package:vote/screens/login_or_signup/streamer.dart';
+import 'package:vote/screens/waiting_screen/waiting_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
         home: Directionality(
-            textDirection: TextDirection.ltr, child: LoginStreamer()));
+            textDirection: TextDirection.ltr, child: WaitingScreen()));
   }
 }

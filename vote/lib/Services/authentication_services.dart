@@ -18,7 +18,6 @@ class FireBaseAuthenticationServices {
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
       if (googleUser == null) {
-        // User canceled the sign-in process
         return null;
       }
 
@@ -33,8 +32,6 @@ class FireBaseAuthenticationServices {
           await FirebaseAuth.instance.signInWithCredential(credential);
       final User? user = authResult.user;
 
-      // You can access user information here (e.g., user.displayName, user.email, etc.)
-
       return user;
     } catch (error) {
       return null;
@@ -45,9 +42,7 @@ class FireBaseAuthenticationServices {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on Exception {
-      // showSnackBar("${e.toString()}");
-    }
+    } on Exception {}
   }
 
   static Future passwordReset(String email, BuildContext context) async {
@@ -66,9 +61,7 @@ class FireBaseAuthenticationServices {
           await FirebaseAuth.instance.fetchSignInMethodsForEmail(email);
 
       if (signInMethods.contains('password')) {
-        // Email already exists, handle accordingly
         showSnackBar('Email already exists. Please sign in.', context);
-        // You may choose to navigate to the sign-in screen or take other actions
         return;
       }
       await FirebaseAuth.instance
