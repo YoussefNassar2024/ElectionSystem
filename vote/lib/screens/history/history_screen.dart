@@ -176,7 +176,17 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //TODO: fix back arrow
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: CustomStyle.colorPalette.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Center(
             child: Text(
           "Your Polls History",
@@ -264,7 +274,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   : Center(
                       child: Column(
                         children: [
-                          Image.asset("assets/images/no_history.jpg",
+                          Image.asset("assets/images/noHistory.jpg",
                               width: MediaQuery.of(context).size.width * 0.8),
                           Text(
                             "There is no recent activity",

@@ -107,6 +107,17 @@ class _FillDataScreenState extends State<FillDataScreen> {
       resizeToAvoidBottomInset:
           false, //avoid floating button to raise when keyboard is raised
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: CustomStyle.colorPalette.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         backgroundColor: CustomStyle.colorPalette.purple,
         title: Center(
           child: Text(

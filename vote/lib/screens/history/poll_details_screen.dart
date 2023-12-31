@@ -3,6 +3,7 @@ import 'package:vote/custom_components/auto_size_container.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/models/poll_history.dart';
+import 'package:vote/screens/history/show_votes_screen.dart';
 import 'package:vote/style/style.dart';
 
 class PollDetailsScreen extends StatefulWidget {
@@ -54,6 +55,17 @@ class _PollDetailsScreenState extends State<PollDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: CustomStyle.colorPalette.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         backgroundColor: CustomStyle.colorPalette.purple,
         title: Center(
             child: Text(
@@ -225,6 +237,10 @@ class _PollDetailsScreenState extends State<PollDetailsScreen> {
                       color: CustomStyle.colorPalette.lightPurple,
                       onPressed: () {
                         //TODO: add navigation
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ShowVotesScreen(
+                                  pollDetails: widget.pollDetails,
+                                )));
                       },
                       childText: "Show Votes",
                       textStyle: TextStyle(

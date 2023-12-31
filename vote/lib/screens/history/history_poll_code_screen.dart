@@ -5,6 +5,7 @@ import 'package:vote/custom_components/custom_space.dart';
 import 'package:vote/custom_components/custom_button.dart';
 import 'package:vote/models/poll_history.dart';
 import 'package:vote/screens/history/poll_details_screen.dart';
+import 'package:vote/screens/history/show_votes_screen.dart';
 import 'package:vote/style/style.dart';
 
 class HistoryPollCodeScreen extends StatefulWidget {
@@ -56,7 +57,17 @@ class _HistoryPollCodeScreenState extends State<HistoryPollCodeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //TODO: add back arrow
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: CustomStyle.colorPalette.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Center(
             child: Text(
           "Your Poll History",
@@ -184,8 +195,10 @@ class _HistoryPollCodeScreenState extends State<HistoryPollCodeScreen> {
                 ? customButton(
                     context: context,
                     onPressed: () {
-                      // Navigator.pushReplacement(context,
-                      //     MaterialPageRoute(builder: (context) => ()));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ShowVotesScreen(
+                                pollDetails: widget.pollDetails,
+                              )));
                     },
                     childText: "Show Votes",
                     color: CustomStyle.colorPalette.lightPurple,

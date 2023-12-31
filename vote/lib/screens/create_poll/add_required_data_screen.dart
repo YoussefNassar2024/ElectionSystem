@@ -105,6 +105,17 @@ class _AddRequiredDataState extends State<AddRequiredData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_sharp,
+            color: CustomStyle.colorPalette.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Center(
           child: Text(
             "Add Required Data",

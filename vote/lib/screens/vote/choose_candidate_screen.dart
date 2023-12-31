@@ -37,7 +37,7 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
         });
       } else if (data['data type'] == 'Text' || data['data type'] == 'Number') {
         dataToUpload.addAll({
-          data.values.first: data.values.last,
+          data.values.first: data.values.first,
         });
       }
     }
@@ -348,16 +348,14 @@ class _ChooseCandidateScreenState extends State<ChooseCandidateScreen> {
                           }
                           await VoteService.uploadVote(
                               Vote(
+                                  isApproved: false,
                                   candidateId: selectedCandidateID,
                                   pollId: widget.poll.pollCode,
                                   voterId: FireBaseAuthenticationServices
                                       .getCurrentUserId(),
                                   voterData: dataToUpload),
                               widget.poll.pollCode);
-                          await ResultsService.placeVote(
-                              widget.poll.pollCode,
-                              int.parse(
-                                  selectedCandidateId)); //TODO: remove and add to approve votes
+
                           await UserService.addContributedPoll(
                               widget.poll.pollCode);
                           Navigator.of(context).pushReplacement(
