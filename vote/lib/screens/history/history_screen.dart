@@ -37,6 +37,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   Future<void> readData() async {
     user = await UserService.getUserData();
+    print(user!);
+
     user!.contributedPolls
         .removeWhere((element) => user!.createdPolls.contains(element));
 
@@ -149,8 +151,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     int biggestNumber = pollsAndResults[index]
         .results!
         .candidateResults
-        .map((result) =>
-            result.values.last) // Get the last value from each candidateResult
+        .map((result) => result.values.last)
         .reduce((max, current) => max > current ? max : current);
     int totalNumberOfVotes = calculateTotalNumberOfVotes(index);
     return (biggestNumber / totalNumberOfVotes) * 100;
@@ -160,8 +161,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     int biggestNumber = pollsAndResults[index]
         .results!
         .candidateResults
-        .map((result) =>
-            result.values.last) // Get the last value from each candidateResult
+        .map((result) => result.values.last)
         .reduce((max, current) => max > current ? max : current);
     return biggestNumber;
   }
@@ -204,7 +204,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
               // If an error occurred, handle it accordingly
-              return const Center(child: Text('Error loading data'));
+              print("this is error: " + snapshot.error.toString());
+              return const Center(child: Text('An error occured'));
             } else {
               // If the Future completed successfully, build your widget tree
               return (pollsAndResults.isNotEmpty)

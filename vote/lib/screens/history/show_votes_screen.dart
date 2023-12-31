@@ -178,15 +178,16 @@ class _ShowVotesScreenState extends State<ShowVotesScreen> {
                                   child: GestureDetector(
                                     onTap: () => Navigator.of(context).push(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                FullScreenImage(
-                                                    "${entry.value}"))),
+                                            builder: (context) => FullScreenImage(
+                                                "${entry.value.toString().trim()}"))),
                                     child: Image.network(
-                                      "${entry.value}",
+                                      entry.value.toString().trim(),
                                       fit: BoxFit.cover,
                                       errorBuilder: (BuildContext context,
                                           Object error,
                                           StackTrace? stackTrace) {
+                                        print(
+                                            "******************This is Image: ${entry.value}");
                                         print('Error loading image: $error');
                                         return Text(
                                           "${entry.value}",

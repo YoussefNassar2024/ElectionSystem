@@ -55,15 +55,43 @@ class UserService {
           .get();
 
       if (userSnapshot.exists) {
-        List<String> createdPolls =
-            List<String>.from(userSnapshot.get('createdPolls') ?? []);
-        List<String> contributedPolls =
-            List<String>.from(userSnapshot.get('contributedPolls') ?? []);
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
 
-        return User(
-          createdPolls: createdPolls,
-          contributedPolls: contributedPolls,
-        );
+        if (userData.containsKey('createdPolls') &&
+            userData.containsKey('contributedPolls')) {
+          List<String> createdPolls =
+              List<String>.from(userSnapshot.get('createdPolls') ?? []);
+          List<String> contributedPolls =
+              List<String>.from(userSnapshot.get('contributedPolls') ?? []);
+          return User(
+            createdPolls: createdPolls,
+            contributedPolls: contributedPolls,
+          );
+        } else if (userData.containsKey('createdPolls') &&
+            !userData.containsKey('contributedPolls')) {
+          List<String> createdPolls =
+              List<String>.from(userSnapshot.get('createdPolls') ?? []);
+
+          return User(
+            createdPolls: createdPolls,
+            contributedPolls: [],
+          );
+        } else if (!userData.containsKey('createdPolls') &&
+            userData.containsKey('contributedPolls')) {
+          List<String> contributedPolls =
+              List<String>.from(userSnapshot.get('contributedPolls') ?? []);
+          return User(
+            createdPolls: [],
+            contributedPolls: contributedPolls,
+          );
+        } else if (!userData.containsKey('createdPolls') &&
+            !userData.containsKey('contributedPolls')) {
+          return User(
+            createdPolls: [],
+            contributedPolls: [],
+          );
+        }
       } else {
         print('User not found for userId: $userId');
         return null;

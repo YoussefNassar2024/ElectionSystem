@@ -10,6 +10,7 @@ class FireBaseAuthenticationServices {
     if (FirebaseAuth.instance.currentUser != null) {
       currentUserID = FirebaseAuth.instance.currentUser?.uid;
     }
+    print("This is current user ID: $currentUserID");
     return currentUserID!;
   }
 
