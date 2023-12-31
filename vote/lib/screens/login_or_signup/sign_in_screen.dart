@@ -201,7 +201,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     try {
                       // Attempt to sign in with the provided email and password
                       await FireBaseAuthenticationServices.signIn(
-                          email, password);
+                          email, password, context);
 
                       // User signed in successfully
                       User? currentUser = FirebaseAuth.instance.currentUser;

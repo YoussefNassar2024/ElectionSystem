@@ -39,11 +39,15 @@ class FireBaseAuthenticationServices {
     }
   }
 
-  static Future signIn(String email, String password) async {
+  static Future signIn(
+      String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-    } on Exception {}
+    } on Exception {
+      removeLoadingScreen(context);
+      showSnackBar("Invalid email or password", context);
+    }
   }
 
   static Future passwordReset(String email, BuildContext context) async {
