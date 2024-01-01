@@ -45,7 +45,6 @@ class FireBaseAuthenticationServices {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on Exception {
-      removeLoadingScreen(context);
       showSnackBar("Invalid email or password", context);
     }
   }

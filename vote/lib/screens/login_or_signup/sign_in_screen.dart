@@ -12,7 +12,8 @@ import 'package:vote/screens/login_or_signup/vefication_screen.dart';
 import 'package:vote/style/style.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  const SignInScreen({super.key, this.currentcontext});
+  final BuildContext? currentcontext;
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -25,7 +26,6 @@ class _SignInScreenState extends State<SignInScreen> {
   late final GlobalKey<FormFieldState> passwordKey;
   bool passwordVisible = false;
   User? user = FirebaseAuth.instance.currentUser;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -192,11 +192,11 @@ class _SignInScreenState extends State<SignInScreen> {
                 width: MediaQuery.of(context).size.width * 0.5,
                 height: MediaQuery.of(context).size.height * 0.07,
                 onPressed: () async {
+                  // showLoadingScreen(context);
                   if (emailKey.currentState!.validate() &&
                       passwordKey.currentState!.validate()) {
                     final email = emailController.text.trim();
                     final password = passwordController.text.trim();
-                    showLoadingScreen(context);
 
                     try {
                       // Attempt to sign in with the provided email and password
@@ -214,14 +214,13 @@ class _SignInScreenState extends State<SignInScreen> {
 
                         if (currentUser!.emailVerified) {
                           // Email is verified, navigate to the home screen or another authenticated screen
-                          // TODO: Navigate to the home screen
-                          removeLoadingScreen(context);
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
-                              builder: (context) =>
-                                  HomeScreen())); // TODO: add real homescreen
+                          Navigator.of(widget.currentcontext!).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      HomeScreen())); // TODO: add real homescreen
                         } else {
                           // Email not verified, navigate to the verification screen
-                          Navigator.of(context).pushReplacement(
+                          Navigator.of(widget.currentcontext!).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) => const VerificationScreen(),
                             ),
@@ -229,32 +228,17 @@ class _SignInScreenState extends State<SignInScreen> {
                         }
                       }
                     } on FirebaseAuthException catch (e) {
-                      removeLoadingScreen(context);
-
                       if (e.code == 'user-not-found') {
-                        // User not found, sign up instead
-                        try {
-                          await FireBaseAuthenticationServices.signUp(
-                              email, password, context);
-
-                          // User signed up successfully, send verification email
-                          // and navigate to the verification screen
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const VerificationScreen(),
-                            ),
-                          );
-                        } catch (signUpError) {
-                          // Handle sign-up errors
-
-                          showSnackBar('Error signing up', context);
-                        }
+                        showSnackBar(
+                            "Email is not registered please sign up", context);
                       } else if (e.code == 'wrong-password') {
+                        showSnackBar('Invalid password', context);
                       } else if (e.code == 'invalid-email') {
                         showSnackBar('Invalid email', context);
                       }
                     }
                   }
+                  // removeLoadingScreen(context);
                 },
                 childText: "Login"),
             customVerticalSpace(context: context),

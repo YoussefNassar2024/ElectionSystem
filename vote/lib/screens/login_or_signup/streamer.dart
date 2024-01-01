@@ -19,7 +19,7 @@ class LoginStreamer extends StatelessWidget {
           return HomeScreen();
         } else {
           // User is not signed in or email is not verified, navigate to sign-up/login screen
-          return const SignInScreen();
+          return SignInScreen(currentcontext: context);
         }
       },
     );

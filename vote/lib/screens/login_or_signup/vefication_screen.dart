@@ -24,11 +24,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
   @override
   void initState() {
     super.initState();
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    if (!isEmailVerified) {
-      sendVerificationEmail();
-      timer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimer());
-    }
+
+    sendVerificationEmail();
+    timer = Timer.periodic(const Duration(seconds: 1), (_) => updateTimer());
+
     Timer.periodic(const Duration(seconds: 5), (_) {
       checkEmailVerified();
     });
@@ -71,8 +70,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
     if (isEmailVerified) {
       timer?.cancel();
       if (mounted) {
-        removeLoadingScreen(context);
-
         // Navigate to the home screen
         Navigator.pushReplacement(
           context,
